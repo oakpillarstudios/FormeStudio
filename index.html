@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forme Studio — Interior Architecture & Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#F8F6F2;--bg2:#F2EEE8;--text:#2A211D;
+      --text2:#6C635B;--accent:#8D6E52;--border:rgba(0,0,0,.08);
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Inter',system-ui,sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+    /* ── LOADER ── */
+    #loader{position:fixed;inset:0;background:var(--text);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease .1s,visibility .5s ease .1s}
+    #loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-wordmark{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bg);letter-spacing:.25em;text-transform:uppercase;opacity:0;animation:ldFade 1s ease .3s forwards;text-align:center}
+    .loader-line{width:0;height:1px;background:var(--accent);margin:.9rem auto 0;animation:ldLine 1.1s ease .6s forwards}
+    @keyframes ldFade{to{opacity:1}}
+    @keyframes ldLine{to{width:100px}}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;transition:background .4s,padding .4s}
+    nav.scrolled{background:rgba(248,246,242,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:.9rem 3rem;border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:var(--serif);font-size:1.45rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;transition:color .3s}
+    nav.scrolled .nav-logo{color:var(--text)}
+    .nav-links{display:flex;gap:2.5rem;align-items:center}
+    .nav-links a{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.82);text-decoration:none;position:relative;transition:color .3s}
+    nav.scrolled .nav-links a{color:var(--text2)}
+    .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a:hover{color:var(--accent)}
+    .nav-cta{color:var(--bg)!important;background:var(--accent);padding:.55rem 1.3rem;text-decoration:none;transition:background .3s}
+    .nav-cta:hover{background:var(--text)!important}
+    .nav-cta::after{display:none!important}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px;width:36px;height:36px;z-index:201}
+    .hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .25s,background .3s}
+    nav.scrolled .hamburger span{background:var(--text)}
+    .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    .hamburger.open span{background:#fff!important}
+
+    /* ── MOBILE NAV ── */
+    .mob-nav{position:fixed;inset:0;z-index:200;background:var(--text);display:flex;flex-direction:column;padding:0 2rem;pointer-events:none;clip-path:circle(0% at calc(100% - 30px) 30px);transition:clip-path .55s cubic-bezier(.4,0,.2,1)}
+    .mob-nav.open{clip-path:circle(150% at calc(100% - 30px) 30px);pointer-events:all}
+    .mob-nav-top{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:auto}
+    .mob-nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:300;color:rgba(248,246,242,.4);letter-spacing:.12em;text-transform:uppercase}
+    .mob-nav-links{display:flex;flex-direction:column;justify-content:center;flex:1;gap:0;padding:1rem 0}
+    .mob-nav-links a{font-family:var(--serif);font-size:clamp(2rem,9vw,3rem);font-weight:300;color:var(--bg);text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.06);opacity:0;transform:translateX(24px);transition:color .2s,opacity .4s,transform .4s}
+    .mob-nav.open .mob-nav-links a{opacity:1;transform:none}
+    .mob-nav.open .mob-nav-links a:nth-child(1){transition-delay:.1s}
+    .mob-nav.open .mob-nav-links a:nth-child(2){transition-delay:.16s}
+    .mob-nav.open .mob-nav-links a:nth-child(3){transition-delay:.22s}
+    .mob-nav.open .mob-nav-links a:nth-child(4){transition-delay:.28s}
+    .mob-nav.open .mob-nav-links a:nth-child(5){transition-delay:.34s}
+    .mob-nav-links a:hover{color:var(--accent)}
+    .mob-nav-links a span{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(248,246,242,.22);font-family:var(--sans)}
+    .mob-cta-btn{display:block;background:var(--accent);color:#fff;text-align:center;padding:.8rem;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;margin-bottom:1rem;opacity:0;transform:translateY(10px);transition:opacity .4s .4s,transform .4s .4s,background .2s}
+    .mob-nav.open .mob-cta-btn{opacity:1;transform:none}
+    .mob-nav-foot{padding:1.25rem 0;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:auto;opacity:0;transition:opacity .4s .38s}
+    .mob-nav.open .mob-nav-foot{opacity:1}
+    .mob-nav-foot a{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(248,246,242,.28);text-decoration:none;transition:color .2s}
+    .mob-nav-foot a:hover{color:var(--accent)}
+
+    /* ── SHARED ── */
+    .sl{font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.85rem;display:block}
+    .fi{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s ease}
+    .fi.v{opacity:1;transform:none}
+    .fl{opacity:0;transform:translateX(-28px);transition:opacity .75s ease,transform .75s ease}
+    .fl.v{opacity:1;transform:none}
+    .fr{opacity:0;transform:translateX(28px);transition:opacity .75s ease,transform .75s ease}
+    .fr.v{opacity:1;transform:none}
+
+    /* BUTTONS */
+    .btn-p{display:inline-block;padding:.8rem 1.85rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-p:hover{background:#fff;color:var(--text);transform:translateY(-2px)}
+    .btn-g{display:inline-block;padding:.8rem 1.85rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-g:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+    .btn-w{display:inline-block;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;background:#fff;color:var(--text);text-decoration:none;transition:background .25s,transform .2s}
+    .btn-w:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+    .btn-gw{display:inline-block;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,255,255,.45);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-gw:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+    .btn-a{display:inline-block;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:var(--sans);text-decoration:none;transition:background .25s,transform .2s}
+    .btn-a:hover{background:var(--bg);color:var(--text);transform:translateY(-2px)}
+    .btn-ol{display:inline-block;padding:.8rem 1.75rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(248,246,242,.2);color:rgba(248,246,242,.65);text-decoration:none;transition:border-color .25s,transform .2s}
+    .btn-ol:hover{border-color:rgba(248,246,242,.6);transform:translateY(-2px)}
+
+    /* ── HERO ── */
+    #hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+    .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=80');background-size:cover;background-position:center;transform:scale(1.06);transition:transform 8s ease}
+    .hero-bg.loaded{transform:scale(1)}
+    .hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,22,18,.78) 0%,rgba(28,22,18,.1) 55%,transparent 100%)}
+    .hero-content{position:relative;z-index:2;padding:0 3rem 5rem;max-width:900px;opacity:0;transform:translateY(28px);transition:opacity .9s ease 1.6s,transform .9s ease 1.6s}
+    .hero-content.visible{opacity:1;transform:none}
+    .hero-eyebrow{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1.1rem;display:block}
+    .hero-title{font-family:var(--serif);font-size:clamp(3rem,7.5vw,7rem);font-weight:300;line-height:1.05;color:#fff;margin-bottom:1.25rem}
+    .hero-title em{font-style:italic;color:rgba(255,255,255,.65)}
+    .hero-sub{font-size:.92rem;color:rgba(255,255,255,.6);max-width:380px;line-height:1.75;margin-bottom:2.25rem;font-weight:300}
+    .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap}
+    .scroll-hint{position:absolute;bottom:2.25rem;right:3rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.45rem;color:rgba(255,255,255,.38);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase}
+    .scroll-line{width:1px;height:44px;background:rgba(255,255,255,.18);position:relative;overflow:hidden}
+    .scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:rgba(255,255,255,.55);animation:scDrop 1.8s ease-in-out infinite}
+    @keyframes scDrop{0%{top:-100%}100%{top:200%}}
+
+    /* ── INTRO ── */
+    #intro{padding:6rem 3rem;background:var(--bg);min-height:100vh;display:flex;align-items:center}
+    .intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:5.5rem;align-items:center;max-width:1280px;margin:0 auto;width:100%}
+    .intro-img{position:relative;overflow:hidden}
+    .intro-img img{width:100%;height:480px;object-fit:cover;display:block;transition:transform 6s ease}
+    .intro-img:hover img{transform:scale(1.04)}
+    .intro-badge{position:absolute;bottom:-1.25rem;right:-1.25rem;width:118px;height:118px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;color:#fff}
+    .ib-num{font-family:var(--serif);font-size:2.2rem;font-weight:300;line-height:1}
+    .ib-lbl{font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;margin-top:.25rem}
+    .intro-h{font-family:var(--serif);font-size:clamp(2rem,3.2vw,3.4rem);font-weight:300;line-height:1.15;margin-bottom:1.4rem}
+    .intro-h em{font-style:italic;color:var(--accent)}
+    .intro-p{color:var(--text2);font-size:.92rem;line-height:1.8;font-weight:300;max-width:460px;margin-bottom:1rem}
+    .intro-stats{display:flex;gap:2.75rem;margin-top:2.75rem;padding-top:2.75rem;border-top:1px solid var(--border)}
+    .sn{font-family:var(--serif);font-size:2.8rem;font-weight:300;line-height:1}
+    .sl2{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);margin-top:.35rem}
+
+    /* ── WORK GALLERY ── */
+    #work{padding:5rem 3rem;background:var(--bg2);min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+    .work-hd{max-width:1280px;margin:0 auto 3.5rem;display:flex;justify-content:space-between;align-items:flex-end}
+    .work-title{font-family:var(--serif);font-size:clamp(2.2rem,3.8vw,4.2rem);font-weight:300;line-height:1.1}
+    .work-sub{font-size:.85rem;color:var(--text2);max-width:250px;text-align:right;font-weight:300;line-height:1.7}
+    .work-filters{max-width:1280px;margin:0 auto 2.5rem;display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .wf{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);padding:.7rem 1.4rem .7rem 0;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
+    .wf.active{color:var(--text);border-bottom-color:var(--accent)}
+    .wf:hover{color:var(--accent)}
+
+    /* Upgraded work grid — more dynamic layout */
+    .work-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .wc{position:relative;overflow:hidden;cursor:pointer;background:#ddd;border-radius:4px}
+    .wc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.4,0,.2,1),filter .5s ease}
+    .wc:hover img{transform:scale(1.08);filter:brightness(1.1)}
+    .wc-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,22,18,.85) 0%,rgba(28,22,18,.1) 50%,transparent 100%);opacity:0;transition:opacity .4s ease,transform .4s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem;transform:translateY(12px)}
+    .wc:hover .wc-info{opacity:1;transform:translateY(0)}
+    .wc-type{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem;opacity:.9}
+    .wc-name{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:#fff;line-height:1.2;margin-bottom:.1rem}
+    .wc-loc{font-size:.7rem;color:rgba(255,255,255,.55);margin-top:.15rem;font-weight:300}
+    .wc-overlay{position:absolute;inset:0;background:rgba(42,33,29,.15);opacity:0;transition:opacity .5s ease}
+    .wc:hover .wc-overlay{opacity:1}
+
+    /* Dynamic grid heights for visual interest */
+    .wc:nth-child(1){grid-column:span 1;height:520px}
+    .wc:nth-child(2){grid-column:span 1;height:240px}
+    .wc:nth-child(3){grid-column:span 1;height:240px}
+    .wc:nth-child(4){grid-column:span 1;height:280px}
+    .wc:nth-child(5){grid-column:span 2;height:280px}
+    .wc:nth-child(6){grid-column:span 2;height:300px}
+    .wc:nth-child(7){grid-column:span 1;height:300px}
+    .wc:nth-child(8){grid-column:span 1;height:250px}
+    .wc:nth-child(9){grid-column:span 1;height:250px}
+    .wc:nth-child(1) .wc-name,.wc:nth-child(5) .wc-name,.wc:nth-child(6) .wc-name{font-size:1.6rem}
+
+    /* Cool hover effect: reveal a subtle border glow */
+    .wc::after{content:'';position:absolute;inset:0;border:2px solid transparent;border-radius:4px;transition:border-color .4s ease;pointer-events:none}
+    .wc:hover::after{border-color:var(--accent)}
+
+    /* ── BEFORE / AFTER ── */
+    #ba{padding:5rem 3rem;background:var(--bg);min-height:100vh;display:flex;align-items:center}
+    .ba-wrap{max-width:1060px;margin:0 auto;width:100%}
+    .ba-hd{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:end;margin-bottom:3rem}
+    .ba-title{font-family:var(--serif);font-size:clamp(2rem,3.2vw,3.6rem);font-weight:300;line-height:1.1}
+    .ba-desc{font-size:.9rem;color:var(--text2);font-weight:300;line-height:1.8}
+    .ba-tabs{display:flex;gap:0;margin-bottom:2rem;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .ba-tab{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text2);padding:.7rem 1.5rem .7rem 0;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
+    .ba-tab.active{color:var(--text);border-bottom-color:var(--accent)}
+    .ba-tab:hover{color:var(--accent)}
+    .ba-slider{position:relative;overflow:hidden;height:480px;cursor:col-resize;user-select:none;touch-action:pan-y;background:#ccc;border-radius:4px}
+    .ba-b,.ba-a{position:absolute;inset:0}
+    .ba-b img,.ba-a img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+    .ba-a{clip-path:inset(0 50% 0 0)}
+    .ba-handle{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%);z-index:10}
+    .ba-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.22)}
+    .ba-btn svg{width:18px;height:18px}
+    .ba-lbl{position:absolute;bottom:1.1rem;font-size:.62rem;letter-spacing:.17em;text-transform:uppercase;background:rgba(28,22,18,.58);color:#fff;padding:.3rem .75rem;z-index:5;border-radius:2px}
+    .ba-lbl-b{left:1.1rem}
+    .ba-lbl-a{right:1.1rem}
+    .ba-pct{position:absolute;top:1.1rem;left:50%;transform:translateX(-50%);background:rgba(28,22,18,.52);color:#fff;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .7rem;z-index:5;white-space:nowrap;border-radius:2px}
+    .ba-sum{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-top:none}
+    .ba-s{padding:1.25rem 1.75rem;border-right:1px solid var(--border)}
+    .ba-s:last-child{border-right:none}
+    .ba-sl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);margin-bottom:.3rem}
+    .ba-sv{font-family:var(--serif);font-size:1.3rem;font-weight:400}
+
+    /* ── BANNER ── */
+    #banner{position:relative;height:400px;overflow:hidden}
+    .ban-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=1800&q=80');background-size:cover;background-position:center;transform:scale(1.05);transition:transform 6s ease}
+    #banner:hover .ban-img{transform:scale(1)}
+    .ban-ov{position:absolute;inset:0;background:rgba(28,22,18,.52)}
+    .ban-cnt{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+    .ban-title{font-family:var(--serif);font-size:clamp(2rem,4.2vw,4.6rem);font-weight:300;line-height:1.1;color:#fff;margin-bottom:1.6rem;max-width:660px}
+    .ban-title em{font-style:italic;color:rgba(255,255,255,.65)}
+    .ban-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+    /* ── PROCESS ── */
+    #process{padding:5rem 3rem;background:var(--bg2);min-height:100vh;display:flex;align-items:center}
+    .proc-wrap{max-width:1060px;margin:0 auto;width:100%}
+    .proc-top{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:end;margin-bottom:4rem}
+    .proc-title{font-family:var(--serif);font-size:clamp(2rem,3.2vw,3.6rem);font-weight:300;line-height:1.1}
+    .proc-intro{font-size:.9rem;color:var(--text2);font-weight:300;line-height:1.8}
+    .proc-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+    .ps{padding:2rem 2rem 2rem 0;border-top:1px solid var(--border)}
+    .ps-num{font-family:var(--serif);font-size:.95rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1rem;display:block}
+    .ps-name{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:.6rem}
+    .ps-desc{font-size:.83rem;color:var(--text2);font-weight:300;line-height:1.75}
+
+    /* ── TESTIMONIALS ── */
+    #tst{background:var(--text);padding:5rem 3rem;min-height:100vh;display:flex;align-items:center}
+    .tst-in{max-width:820px;margin:0 auto;width:100%}
+    .t-slider{overflow:hidden}
+    .t-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+    .t-slide{min-width:100%}
+    .t-q{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,2.2rem);font-weight:300;line-height:1.45;color:#F8F6F2;margin-bottom:2.25rem;font-style:italic}
+    .t-q::before{content:'\201C';color:var(--accent)}
+    .t-q::after{content:'\201D';color:var(--accent)}
+    .t-auth{display:flex;align-items:center;gap:1.1rem}
+    .t-av{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.1rem;color:#fff;flex-shrink:0}
+    .t-name{font-size:.85rem;color:rgba(248,246,242,.88);font-weight:300}
+    .t-role{font-size:.68rem;color:rgba(248,246,242,.38);letter-spacing:.1em;text-transform:uppercase;margin-top:.15rem}
+    .t-dots{display:flex;gap:.55rem;margin-top:2.75rem}
+    .td{width:22px;height:2px;background:rgba(255,255,255,.18);cursor:pointer;transition:background .3s,width .3s}
+    .td.active{background:var(--accent);width:36px}
+
+    /* ── CONTACT ── */
+    #contact{background:var(--bg2);min-height:100vh;display:flex;align-items:center;padding:0}
+    .ct-split{display:grid;grid-template-columns:1fr 1fr;min-height:0;height:100vh;width:100%}
+    .ct-img{position:relative;overflow:hidden;height:100%}
+    .ct-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s ease}
+    .ct-img:hover img{transform:scale(1.04)}
+    .ct-img-ov{position:absolute;inset:0;background:rgba(28,22,18,.46);display:flex;flex-direction:column;justify-content:flex-end;padding:3rem}
+    .ct-quote{font-family:var(--serif);font-size:1.5rem;font-weight:300;font-style:italic;color:#fff;line-height:1.4;max-width:360px}
+    .ct-attr{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-top:.85rem}
+    .ct-form-panel{background:var(--text);padding:4rem 3.5rem;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .ct-lbl{font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem;display:block}
+    .ct-title{font-family:var(--serif);font-size:clamp(1.8rem,2.8vw,2.8rem);font-weight:300;line-height:1.12;color:var(--bg);margin-bottom:.65rem}
+    .ct-sub{font-size:.86rem;color:rgba(248,246,242,.42);font-weight:300;line-height:1.75;margin-bottom:2.25rem}
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .ff{border-bottom:1px solid rgba(255,255,255,.1);padding:1rem 0}
+    .ff.full{grid-column:span 2}
+    .ff label{display:block;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(248,246,242,.32);margin-bottom:.35rem}
+    .ff input,.ff textarea,.ff select{width:100%;background:none;border:none;outline:none;font-family:var(--sans);font-size:.88rem;color:var(--bg);font-weight:300;resize:none}
+    .ff input::placeholder,.ff textarea::placeholder{color:rgba(248,246,242,.16)}
+    .ff select option{background:var(--text)}
+    .ct-actions{display:flex;gap:.85rem;align-items:center;margin-top:1.85rem;flex-wrap:wrap}
+    .ct-info{display:flex;gap:2rem;padding-top:2rem;margin-top:2rem;border-top:1px solid rgba(255,255,255,.07);flex-wrap:wrap}
+    .ci strong{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:400;margin-bottom:.2rem}
+    .ci span{font-size:.8rem;color:rgba(248,246,242,.4);font-weight:300}
+
+    /* FOOTER */
+    footer{background:var(--text);border-top:1px solid rgba(255,255,255,.05);padding:2.25rem 3rem}
+    .ft-in{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}
+    .ft-logo{font-family:var(--serif);font-size:1.1rem;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:rgba(248,246,242,.35)}
+    .ft-links{display:flex;gap:1.75rem;flex-wrap:wrap}
+    .ft-links a{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(248,246,242,.22);text-decoration:none;transition:color .2s}
+    .ft-links a:hover{color:var(--accent)}
+    .ft-copy{font-size:.68rem;color:rgba(248,246,242,.15)}
+    .sticky-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--accent);padding:.95rem 1.5rem;text-align:center;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-decoration:none;font-family:var(--sans);transition:background .2s}
+    .sticky-cta:hover{background:var(--text)}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      nav{padding:1.1rem 1.4rem}
+      nav.scrolled{padding:.9rem 1.4rem}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      #intro,#work,#ba,#process,#tst{padding:3.5rem 1.25rem;min-height:auto}
+      #hero{height:92vh}
+      .hero-content{padding:0 1.25rem 3.5rem}
+      .hero-title{font-size:2.6rem}
+      .hero-sub{max-width:100%}
+      .hero-btns .btn-g{display:none}
+      .scroll-hint{display:none}
+      .intro-grid{grid-template-columns:1fr;gap:2.25rem}
+      .intro-img img{height:300px}
+      .intro-badge{bottom:.75rem;right:.75rem;width:96px;height:96px}
+      .ib-num{font-size:1.7rem}
+      .intro-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:1.75rem;margin-top:1.75rem}
+      .sn{font-size:2rem}
+      .work-hd{flex-direction:column;align-items:flex-start;gap:.75rem;margin-bottom:2.25rem}
+      .work-sub{text-align:left;max-width:100%}
+      .work-grid{grid-template-columns:1fr 1fr;gap:.85rem}
+      .wc{height:160px!important;grid-column:span 1!important}
+      .wc:nth-child(1),.wc:nth-child(5),.wc:nth-child(6){grid-column:span 2!important;height:210px!important}
+      .wc-info{opacity:1;background:linear-gradient(to top,rgba(28,22,18,.75) 0%,transparent 55%);transform:none}
+      .wc-name,.wc:nth-child(1) .wc-name,.wc:nth-child(5) .wc-name,.wc:nth-child(6) .wc-name{font-size:.95rem!important}
+      .wc-loc{display:none}
+      .ba-hd{grid-template-columns:1fr;gap:1.25rem;margin-bottom:2rem}
+      .ba-slider{height:300px}
+      .ba-sum{grid-template-columns:repeat(2,1fr)}
+      .ba-s{padding:1rem 1.1rem}
+      .ba-s:nth-child(2){border-right:none}
+      .ba-s:nth-child(3){border-top:1px solid var(--border)}
+      .ba-s:nth-child(4){border-top:1px solid var(--border);border-right:none}
+      #banner{height:380px}
+      .ban-title{font-size:1.85rem}
+      .ban-btns .btn-gw{display:none}
+      .proc-top{grid-template-columns:1fr;gap:1.25rem;margin-bottom:2.5rem}
+      .proc-steps{grid-template-columns:1fr;gap:0}
+      .ps{padding:1.4rem 0;border-top:1px solid var(--border)}
+      .t-q{font-size:1.25rem}
+      .ct-split{grid-template-columns:1fr;height:auto;min-height:auto}
+      .ct-img{min-height:260px;max-height:320px;height:auto}
+      .ct-img-ov{padding:1.75rem}
+      .ct-quote{font-size:1.15rem}
+      .ct-form-panel{padding:2.75rem 1.25rem;height:auto}
+      .fg{grid-template-columns:1fr}
+      .ff.full{grid-column:span 1}
+      .ct-actions{flex-direction:column;align-items:stretch}
+      .ct-actions .btn-a,.ct-actions .btn-ol{text-align:center}
+      .ct-info{flex-direction:column;gap:.85rem}
+      footer{padding:1.75rem 1.25rem}
+      .ft-in{flex-direction:column;align-items:flex-start;gap:1.1rem}
+      .sticky-cta{display:block}
+      body{padding-bottom:52px}
+    }
+    @media(max-width:480px){
+      .work-grid{grid-template-columns:1fr}
+      .wc{height:220px!important;grid-column:span 1!important}
+      .wc:nth-child(1),.wc:nth-child(5),.wc:nth-child(6){grid-column:span 1!important;height:220px!important}
+      .ba-tabs{flex-direction:column;border-bottom:none;gap:0}
+      .ba-tab{border-bottom:1px solid var(--border);padding:.65rem 0}
+      .ba-tab.active{border-bottom-color:var(--accent)}
+    }
+
+    /* ── ADMIN MODAL STYLING ── */
+    .admin-trigger {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 99;
+      transition: background 0.3s ease, transform 0.3s ease;
+      padding: 0;
+      outline: none;
+    }
+    .admin-trigger:hover {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+    }
+    .admin-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .admin-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 22, 18, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: opacity 0.4s ease;
+    }
+    .admin-modal-container {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(248, 246, 242, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 40px rgba(42, 33, 29, 0.2);
+      border-radius: 12px;
+      z-index: 10001;
+      transform: scale(0.92) translateY(10px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+    .admin-modal.open .admin-modal-container {
+      transform: scale(1) translateY(0);
+    }
+    .admin-modal-content {
+      padding: 2.5rem 2.25rem;
+    }
+    .admin-modal-title {
+      font-family: var(--serif);
+      font-size: 2.1rem;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+    .admin-modal-subtitle {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 2.25rem;
+      text-align: center;
+      font-weight: 300;
+    }
+    .admin-form-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-form-group label {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text2);
+      margin-bottom: 0.5rem;
+    }
+    .admin-form-group input {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.8rem 1rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .admin-form-group input:focus {
+      border-color: var(--accent);
+      background-color: #fff;
+      box-shadow: 0 0 0 3px rgba(141, 110, 82, 0.15);
+    }
+    .admin-error-message {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      color: #c0392b;
+      margin-bottom: 1.25rem;
+      padding: 0.75rem 1rem;
+      background: rgba(192, 57, 43, 0.08);
+      border-left: 2px solid #c0392b;
+      border-radius: 4px;
+      font-weight: 300;
+    }
+    .admin-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .btn-cancel {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.9rem;
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .btn-cancel:hover {
+      background: rgba(0, 0, 0, 0.03);
+      color: var(--text);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+    .btn-login {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-login:hover {
+      background: var(--text);
+      transform: translateY(-2px);
+    }
+    .btn-login:active {
+      transform: translateY(0);
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .admin-modal-container.shake {
+      animation: shake 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader"><div><div class="loader-wordmark">Forme Studio</div><div class="loader-line"></div></div></div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-top"><span class="mob-nav-logo">Forme Studio</span></div>
+  <nav class="mob-nav-links">
+    <a href="#intro" onclick="closeNav()">Studio <span>01</span></a>
+    <a href="#work" onclick="closeNav()">Work <span>02</span></a>
+    <a href="#ba" onclick="closeNav()">Transformations <span>03</span></a>
+    <a href="#process" onclick="closeNav()">Process <span>04</span></a>
+    <a href="#contact" onclick="closeNav()">Contact <span>05</span></a>
+  </nav>
+  <a href="#contact" class="mob-cta-btn" onclick="closeNav()">Book a Consultation</a>
+  <div class="mob-nav-foot">
+    <a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">LinkedIn</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">Forme</a>
+  <div class="nav-links">
+    <a href="#intro">Studio</a>
+    <a href="#work">Work</a>
+    <a href="#ba">Transformations</a>
+    <a href="#process">Process</a>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="hamburger" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-content" id="heroC">
+    <span class="hero-eyebrow">Interior Architecture & Design · Est. 2011</span>
+    <h1 class="hero-title">Where Space<br>Becomes <em>Story.</em></h1>
+    <p class="hero-sub">We design interiors that hold a feeling — shaped around how you live, breathe, and move through your world.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn-p">Explore Our Work</a>
+      <a href="#contact" class="btn-g">Start a Project</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ═══ INTRO ═══ -->
+<section id="intro">
+  <div class="intro-grid">
+    <div class="intro-img fl">
+      <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80" alt="Forme Studio interior">
+      <div class="intro-badge"><span class="ib-num">14</span><span class="ib-lbl">Years of craft</span></div>
+    </div>
+    <div class="fr">
+      <span class="sl">Our Philosophy</span>
+      <h2 class="intro-h">Design that<br>begins with<br><em>listening.</em></h2>
+      <p class="intro-p">At Forme, we believe the best interiors are never imposed — they're uncovered. Through deep conversation, we learn how you live, then translate that into spaces of quiet precision and lasting warmth.</p>
+      <p class="intro-p">Our process is unhurried. Our material palette is considered. Every detail exists for a reason.</p>
+      <div class="intro-stats">
+        <div><div class="sn" data-count="214">0</div><div class="sl2">Projects</div></div>
+        <div><div class="sn" data-count="14">0</div><div class="sl2">Years</div></div>
+        <div><div class="sn" data-count="198">0</div><div class="sl2">Clients</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK GALLERY ═══ -->
+<section id="work">
+  <div class="work-hd fi">
+    <div><span class="sl">Selected Works</span><h2 class="work-title">Spaces we've<br>brought to life.</h2></div>
+    <p class="work-sub">Residential, hospitality & commercial across Europe, 2018–2024.</p>
+  </div>
+  <div class="work-filters fi">
+    <button class="wf active" data-filter="all">All</button>
+    <button class="wf" data-filter="residential">Residential</button>
+    <button class="wf" data-filter="hospitality">Hospitality</button>
+    <button class="wf" data-filter="commercial">Commercial</button>
+  </div>
+  <div class="work-grid fi">
+    <div class="wc" data-category="residential">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Maison Tolbiac" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Residential</div><div class="wc-name">Maison Tolbiac</div><div class="wc-loc">Paris, France · 210 m²</div></div>
+    </div>
+    <div class="wc" data-category="hospitality">
+      <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=700&q=80" alt="The Herne Suite" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Hospitality</div><div class="wc-name">The Herne Suite</div><div class="wc-loc">London, UK</div></div>
+    </div>
+    <div class="wc" data-category="residential">
+      <img src="https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=700&q=80" alt="Villa Solare" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Residential</div><div class="wc-name">Villa Solare</div><div class="wc-loc">Mallorca, Spain</div></div>
+    </div>
+    <div class="wc" data-category="commercial">
+      <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=700&q=80" alt="Studio Norde" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Commercial</div><div class="wc-name">Studio Norde</div><div class="wc-loc">Stockholm, SE</div></div>
+    </div>
+    <div class="wc" data-category="hospitality">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80" alt="Café Brume" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Hospitality</div><div class="wc-name">Café Brume</div><div class="wc-loc">Copenhagen, DK · 95 m²</div></div>
+    </div>
+    <div class="wc" data-category="residential">
+      <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80" alt="Casa Brezo" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Residential</div><div class="wc-name">Casa Brezo</div><div class="wc-loc">Porto, Portugal · 340 m²</div></div>
+    </div>
+    <div class="wc" data-category="hospitality">
+      <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=700&q=80" alt="Hotel Lumina" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Hospitality</div><div class="wc-name">Hotel Lumina</div><div class="wc-loc">Florence, IT</div></div>
+    </div>
+    <div class="wc" data-category="residential">
+      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=700&q=80" alt="Atelier Dumont" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Residential</div><div class="wc-name">Atelier Dumont</div><div class="wc-loc">Lyon, France</div></div>
+    </div>
+    <div class="wc" data-category="commercial">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80" alt="Maison Nord Office" loading="lazy">
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><div class="wc-type">Commercial</div><div class="wc-name">Maison Nord</div><div class="wc-loc">Oslo, NO</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BEFORE / AFTER ═══ -->
+<section id="ba">
+  <div class="ba-wrap">
+    <div class="ba-hd">
+      <div class="fl">
+        <span class="sl">Transformations</span>
+        <h2 class="ba-title">The same walls.<br>A completely<br>different life.</h2>
+      </div>
+      <p class="ba-desc fr">Drag the handle to reveal the transformation. These are real before-and-after renovations — showing how the same space can be completely reimagined through considered design.</p>
+    </div>
+
+    <div class="ba-tabs fi">
+      <button class="ba-tab active" data-ba="0">Living Room Overhaul</button>
+      <button class="ba-tab" data-ba="1">Kitchen Renovation</button>
+      <button class="ba-tab" data-ba="2">Bedroom Transformation</button>
+    </div>
+
+    <div class="ba-slider fi" id="baS">
+      <div class="ba-b">
+        <img id="baBI" src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80" alt="Before renovation">
+      </div>
+      <div class="ba-a" id="baA">
+        <img id="baAI" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" alt="After renovation">
+      </div>
+      <div class="ba-handle" id="baH">
+        <div class="ba-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2A211D" stroke-width="1.5">
+            <path d="M8 5l-5 7 5 7M16 5l5 7-5 7"/>
+          </svg>
+        </div>
+      </div>
+      <span class="ba-lbl ba-lbl-b">Before</span>
+      <span class="ba-lbl ba-lbl-a">After</span>
+      <span class="ba-pct" id="baPct">50% revealed</span>
+    </div>
+
+    <div class="ba-sum fi">
+      <div class="ba-s"><div class="ba-sl">Project</div><div class="ba-sv" id="bN">Rue Lecourbe Living Room</div></div>
+      <div class="ba-s"><div class="ba-sl">Duration</div><div class="ba-sv" id="bD">6 months</div></div>
+      <div class="ba-s"><div class="ba-sl">Scope</div><div class="ba-sv" id="bSc">Full Renovation</div></div>
+      <div class="ba-s"><div class="ba-sl">Budget</div><div class="ba-sv" id="bBu">€ 180–240k</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BANNER ═══ -->
+<div id="banner">
+  <div class="ban-img"></div>
+  <div class="ban-ov"></div>
+  <div class="ban-cnt fi">
+    <span class="sl">Forme Studio · Since 2011</span>
+    <h2 class="ban-title">Every detail is a decision.<br><em>We make them carefully.</em></h2>
+    <div class="ban-btns">
+      <a href="#process" class="btn-w">Our Process</a>
+      <a href="#contact" class="btn-gw">Book a Consultation</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process">
+  <div class="proc-wrap">
+    <div class="proc-top">
+      <div class="fl"><span class="sl">How We Work</span><h2 class="proc-title">A process as considered as the result.</h2></div>
+      <p class="proc-intro fr">We move carefully through six phases — each a conversation between your vision and our expertise. Nothing is rushed. Everything is intentional.</p>
+    </div>
+    <div class="proc-steps">
+      <div class="ps fi"><span class="ps-num">01</span><div class="ps-name">Discovery</div><p class="ps-desc">A deep conversation about how you live — routines, aesthetics, what you love and what you've outgrown.</p></div>
+      <div class="ps fi"><span class="ps-num">02</span><div class="ps-name">Concept</div><p class="ps-desc">From listening comes a spatial narrative that guides every decision, from floor plan to fabric choice.</p></div>
+      <div class="ps fi"><span class="ps-num">03</span><div class="ps-name">Materials</div><p class="ps-desc">A tight, cohesive palette that will age beautifully and work in harmony for decades.</p></div>
+      <div class="ps fi"><span class="ps-num">04</span><div class="ps-name">Visualization</div><p class="ps-desc">3D renders and material boards let you inhabit the space before a single wall is touched.</p></div>
+      <div class="ps fi"><span class="ps-num">05</span><div class="ps-name">Execution</div><p class="ps-desc">We manage the build closely with trusted craftspeople to ensure every detail is precise.</p></div>
+      <div class="ps fi"><span class="ps-num">06</span><div class="ps-name">Styling & Handover</div><p class="ps-desc">Art, objects, textiles, light — the final layer that makes a designed space feel like home.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="tst">
+  <div class="tst-in">
+    <span class="sl">Client Words</span>
+    <div class="t-slider"><div class="t-track" id="tT">
+      <div class="t-slide fi"><p class="t-q">Forme didn't just redesign our apartment — they redesigned how we live in it. Every morning feels like arriving somewhere new.</p><div class="t-auth"><div class="t-av">E</div><div><div class="t-name">Emma R. — Paris, France</div><div class="t-role">Maison Tolbiac Project</div></div></div></div>
+      <div class="t-slide"><p class="t-q">The process was unlike anything I'd experienced. They asked questions no other designer had ever thought to ask. The result was more us than we imagined.</p><div class="t-auth"><div class="t-av">D</div><div><div class="t-name">Daniel M. — London, UK</div><div class="t-role">The Herne Suite Project</div></div></div></div>
+      <div class="t-slide"><p class="t-q">I was nervous about handing over something so personal. Forme gave it back as something we didn't know we needed. The trust was entirely earned.</p><div class="t-auth"><div class="t-av">S</div><div><div class="t-name">Sophia T. — Stockholm, SE</div><div class="t-role">Studio Norde Project</div></div></div></div>
+    </div></div>
+    <div class="t-dots" id="tDs">
+      <div class="td active" data-i="0"></div>
+      <div class="td" data-i="1"></div>
+      <div class="td" data-i="2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="ct-split">
+    <div class="ct-img fl">
+      <img 
+        src="/contactpage.png" 
+        alt="Elegant interior design by Forme Studio"
+        loading="lazy"
+      >
+      <div class="ct-img-ov">
+        <p class="ct-quote">"A space should feel like you — before you've said a word about yourself."</p>
+        <p class="ct-attr">— Forme Studio Design Philosophy</p>
+      </div>
+    </div>
+    <div class="ct-form-panel fr">
+      <span class="ct-lbl">Start Something</span>
+      <h2 class="ct-title">Let's design a space<br>worth living in.</h2>
+      <p class="ct-sub">Tell us about your project. We respond within two business days — no commitment required.</p>
+      <div class="fg">
+        <div class="ff"><label>First Name</label><input type="text" placeholder="Elena"></div>
+        <div class="ff"><label>Last Name</label><input type="text" placeholder="Morrow"></div>
+        <div class="ff full"><label>Email</label><input type="email" placeholder="elena@example.com"></div>
+        <div class="ff full"><label>Project Type</label>
+          <select><option value="" disabled selected>Select your project</option><option>Residential — Apartment</option><option>Residential — House / Villa</option><option>Hospitality</option><option>Commercial</option><option>Consultation Only</option></select>
+        </div>
+        <div class="ff full"><label>About your project</label><textarea rows="4" placeholder="Location, scope, timeline, what matters most..."></textarea></div>
+      </div>
+      <div class="ct-actions">
+        <button class="btn-a">Send Message</button>
+        <a href="#" class="btn-ol">Download Portfolio</a>
+      </div>
+      <div class="ct-info">
+        <div class="ci"><strong>Studio</strong><span>7 Rue du Faubourg, Paris 75008</span></div>
+        <div class="ci"><strong>Email</strong><span>hello@formestudio.com</span></div>
+        <div class="ci"><strong>Phone</strong><span>+33 1 42 00 00 00</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div class="ft-logo">Forme Studio</div>
+    <div class="ft-links"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">LinkedIn</a><a href="#">Privacy</a><a href="#" id="admin-trigger">Admin</a></div>
+    <div class="ft-copy">© 2024 Forme Studio. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- Admin Login Modal -->
+<div id="admin-modal" class="admin-modal">
+  <div class="admin-modal-overlay"></div>
+  <div class="admin-modal-container">
+    <div class="admin-modal-content">
+      <h3 class="admin-modal-title">Admin Login</h3>
+      <p class="admin-modal-subtitle">Enter your credentials to access the panel.</p>
+      
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="admin-form-group">
+          <label for="admin-email">Email Address</label>
+          <input type="email" id="admin-email" name="email" required placeholder="admin@example.com">
+        </div>
+        <div class="admin-form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" name="password" required placeholder="••••••••">
+        </div>
+        
+        <div id="admin-login-error" class="admin-error-message" style="display: none;"></div>
+        
+        <div class="admin-modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeAdminModal()">Cancel</button>
+          <button type="submit" class="btn-login">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<a href="#contact" class="sticky-cta">Start a Project</a>
+
+<script>
+// ── LOADER
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hidden');
+    document.getElementById('heroC').classList.add('visible');
+    setTimeout(()=>document.getElementById('heroBg').classList.add('loaded'),80);
+  },1800);
+});
+
+// ── NAV SCROLL
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>55));
+
+// ── HAMBURGER
+const ham=document.getElementById('ham');
+const mobNav=document.getElementById('mobNav');
+let navOpen=false;
+ham.addEventListener('click',()=>{
+  navOpen=!navOpen;
+  ham.classList.toggle('open',navOpen);
+  mobNav.classList.toggle('open',navOpen);
+  document.body.style.overflow=navOpen?'hidden':'';
+});
+function closeNav(){navOpen=false;ham.classList.remove('open');mobNav.classList.remove('open');document.body.style.overflow='';}
+
+// ── SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('v');
+      e.target.querySelectorAll('[data-count]').forEach(animCount);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.fi,.fl,.fr').forEach(el=>obs.observe(el));
+
+// ── COUNTER
+function animCount(el){
+  const target=parseInt(el.dataset.count);let c=0;
+  const step=target/(1500/16);
+  const t=setInterval(()=>{c=Math.min(c+step,target);el.textContent=Math.floor(c)+(target>=100?'+':'');if(c>=target)clearInterval(t);},16);
+}
+
+// ── WORK FILTERS
+document.querySelectorAll('.wf').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.wf').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=b.dataset.filter;
+    document.querySelectorAll('.wc').forEach(c=>{
+      const show=f==='all'||c.dataset.category===f;
+      c.style.transition='opacity .4s,transform .4s';
+      c.style.opacity=show?'1':'0.1';
+      c.style.transform=show?'none':'scale(.97)';
+      c.style.pointerEvents=show?'auto':'none';
+    });
+  });
+});
+
+// ── BEFORE/AFTER DATA
+const baData=[
+  {
+    b:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80',
+    a:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
+    n:'Rue Lecourbe — Living Room',d:'6 months',sc:'Full Gut Renovation',bu:'€ 180–240k'
+  },
+  {
+    b:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80',
+    a:'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?auto=format&fit=crop&w=1200&q=80',
+    n:'Kensington Kitchen',d:'3 months',sc:'Kitchen Overhaul',bu:'€ 80–110k'
+  },
+  {
+    b:'https://images.unsplash.com/photo-1503174971373-b1f69850bded?auto=format&fit=crop&w=1200&q=80',
+    a:'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1200&q=80',
+    n:'Atelier Bastille — Master Suite',d:'10 months',sc:'Full Apartment',bu:'€ 220–300k'
+  }
+];
+
+document.querySelectorAll('.ba-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ba-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const d=baData[parseInt(tab.dataset.ba)];
+    const bi=document.getElementById('baBI'),ai=document.getElementById('baAI');
+    bi.style.opacity='0'; ai.style.opacity='0';
+    setTimeout(()=>{
+      bi.src=d.b; ai.src=d.a;
+      bi.style.opacity='1'; ai.style.opacity='1';
+    },200);
+    document.getElementById('bN').textContent=d.n;
+    document.getElementById('bD').textContent=d.d;
+    document.getElementById('bSc').textContent=d.sc;
+    document.getElementById('bBu').textContent=d.bu;
+    setBA(50);
+  });
+});
+
+// ── SLIDER
+const baS=document.getElementById('baS');
+const baA=document.getElementById('baA');
+const baH=document.getElementById('baH');
+const baPct=document.getElementById('baPct');
+let drag=false;
+function setBA(p){
+  p=Math.min(Math.max(p,1),99);
+  baA.style.clipPath=`inset(0 ${100-p}% 0 0)`;
+  baH.style.left=p+'%';
+  baPct.textContent=Math.round(p)+'% revealed';
+}
+function getP(x){const r=baS.getBoundingClientRect();return((x-r.left)/r.width)*100;}
+baS.addEventListener('mousedown',e=>{drag=true;setBA(getP(e.clientX));e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(drag)setBA(getP(e.clientX));});
+window.addEventListener('mouseup',()=>drag=false);
+baS.addEventListener('touchstart',e=>{drag=true;setBA(getP(e.touches[0].clientX));},{passive:true});
+window.addEventListener('touchmove',e=>{if(drag)setBA(getP(e.touches[0].clientX));},{passive:true});
+window.addEventListener('touchend',()=>drag=false);
+setBA(50);
+
+// ── TESTIMONIALS
+const tT=document.getElementById('tT');
+const tDs=document.querySelectorAll('.td');
+let tc=0,ta;
+function goT(i){tc=i;tT.style.transform=`translateX(-${i*100}%)`;tDs.forEach((d,j)=>d.classList.toggle('active',j===i));}
+tDs.forEach(d=>d.addEventListener('click',()=>goT(parseInt(d.dataset.i))));
+ta=setInterval(()=>goT((tc+1)%3),5000);
+tT.addEventListener('mouseenter',()=>clearInterval(ta));
+tT.addEventListener('mouseleave',()=>{ta=setInterval(()=>goT((tc+1)%3),5000);});
+
+// Prevent images from transitioning weirdly
+document.getElementById('baBI').style.transition='opacity .2s';
+document.getElementById('baAI').style.transition='opacity .2s';
+
+// ── ADMIN MODAL LOGIC
+const adminModal = document.getElementById('admin-modal');
+const adminTrigger = document.getElementById('admin-trigger');
+
+if (adminTrigger && adminModal) {
+  adminTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openAdminModal();
+  });
+}
+
+function openAdminModal() {
+  const modal = document.getElementById('admin-modal');
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    
+    // Focus email input
+    const emailInput = document.getElementById('admin-email');
+    if (emailInput) {
+      setTimeout(() => emailInput.focus(), 150);
+    }
+  }
+}
+
+function closeAdminModal() {
+  const modal = document.getElementById('admin-modal');
+  if (modal) {
+    modal.classList.remove('open');
+    if (!document.getElementById('mobNav').classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+    
+    document.getElementById('admin-email').value = '';
+    document.getElementById('admin-password').value = '';
+    const err = document.getElementById('admin-login-error');
+    err.style.display = 'none';
+    err.textContent = '';
+  }
+}
+
+// Click outside modal container to close
+const modalOverlay = document.querySelector('.admin-modal-overlay');
+if (modalOverlay) {
+  modalOverlay.addEventListener('click', closeAdminModal);
+}
+
+// Close on ESC
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeAdminModal();
+  }
+});
+
+// Handle Login
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const email = document.getElementById('admin-email').value.trim();
+  const password = document.getElementById('admin-password').value;
+  const errorEl = document.getElementById('admin-login-error');
+  
+  if (email === 'admin@example.com' && password === 'Admin@123') {
+    localStorage.setItem('admin_session', 'true');
+    localStorage.setItem('admin_email', email);
+    closeAdminModal();
+    window.location.href = 'admin.html';
+  } else {
+    errorEl.textContent = 'Invalid Email or Password';
+    errorEl.style.display = 'block';
+    
+    const container = document.querySelector('.admin-modal-container');
+    if (container) {
+      container.classList.remove('shake');
+      void container.offsetWidth; // trigger reflow
+      container.classList.add('shake');
+    }
+  }
+}
+</script>
+</body>
+</html>
