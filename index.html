@@ -48,27 +48,9 @@
     .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
     .hamburger.open span{background:#fff!important}
 
-    /* ── MOBILE NAV ── */
-    .mob-nav{position:fixed;inset:0;z-index:200;background:var(--text);display:flex;flex-direction:column;padding:0 2rem;pointer-events:none;clip-path:circle(0% at calc(100% - 30px) 30px);transition:clip-path .55s cubic-bezier(.4,0,.2,1)}
-    .mob-nav.open{clip-path:circle(150% at calc(100% - 30px) 30px);pointer-events:all}
-    .mob-nav-top{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:auto}
-    .mob-nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:300;color:rgba(248,246,242,.4);letter-spacing:.12em;text-transform:uppercase}
-    .mob-nav-links{display:flex;flex-direction:column;justify-content:center;flex:1;gap:0;padding:1rem 0}
-    .mob-nav-links a{font-family:var(--serif);font-size:clamp(2rem,9vw,3rem);font-weight:300;color:var(--bg);text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.06);opacity:0;transform:translateX(24px);transition:color .2s,opacity .4s,transform .4s}
-    .mob-nav.open .mob-nav-links a{opacity:1;transform:none}
-    .mob-nav.open .mob-nav-links a:nth-child(1){transition-delay:.1s}
-    .mob-nav.open .mob-nav-links a:nth-child(2){transition-delay:.16s}
-    .mob-nav.open .mob-nav-links a:nth-child(3){transition-delay:.22s}
-    .mob-nav.open .mob-nav-links a:nth-child(4){transition-delay:.28s}
-    .mob-nav.open .mob-nav-links a:nth-child(5){transition-delay:.34s}
-    .mob-nav-links a:hover{color:var(--accent)}
-    .mob-nav-links a span{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(248,246,242,.22);font-family:var(--sans)}
-    .mob-cta-btn{display:block;background:var(--accent);color:#fff;text-align:center;padding:.8rem;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;margin-bottom:1rem;opacity:0;transform:translateY(10px);transition:opacity .4s .4s,transform .4s .4s,background .2s}
-    .mob-nav.open .mob-cta-btn{opacity:1;transform:none}
-    .mob-nav-foot{padding:1.25rem 0;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:auto;opacity:0;transition:opacity .4s .38s}
-    .mob-nav.open .mob-nav-foot{opacity:1}
-    .mob-nav-foot a{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(248,246,242,.28);text-decoration:none;transition:color .2s}
-    .mob-nav-foot a:hover{color:var(--accent)}
+    .mob-nav {
+      display: none;
+    }
 
     /* ── SHARED ── */
     .sl{font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.85rem;display:block}
@@ -269,7 +251,137 @@
 
     /* ── RESPONSIVE ── */
     @media(max-width:900px){
-      nav{padding:1.1rem 1.4rem}
+      .mob-nav {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: var(--text);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 3rem 2.5rem;
+        pointer-events: none;
+        clip-path: circle(0% at calc(100% - 30px) 30px);
+        transition: clip-path .55s cubic-bezier(.4,0,.2,1);
+        overflow-y: auto;
+      }
+      .mob-nav.open {
+        pointer-events: all;
+        clip-path: circle(150% at calc(100% - 30px) 30px);
+      }
+      .mob-nav-top {
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 1.5rem;
+      }
+      .mob-nav-logo {
+        font-family: var(--serif);
+        font-size: 1.35rem;
+        font-weight: 300;
+        color: rgba(248, 246, 242, 0.5);
+        letter-spacing: .15em;
+        text-transform: uppercase;
+      }
+      .mob-nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .mob-nav-links a {
+        font-family: var(--serif);
+        font-size: clamp(2rem, 8vw, 2.6rem);
+        font-weight: 300;
+        color: var(--bg);
+        text-decoration: none;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.2rem 0;
+        opacity: 0;
+        transition: color .2s, opacity .4s;
+      }
+      .mob-nav.open .mob-nav-links a {
+        opacity: 1;
+      }
+      .mob-nav.open .mob-nav-links a:nth-child(1) { transition-delay: .1s; }
+      .mob-nav.open .mob-nav-links a:nth-child(2) { transition-delay: .16s; }
+      .mob-nav.open .mob-nav-links a:nth-child(3) { transition-delay: .22s; }
+      .mob-nav.open .mob-nav-links a:nth-child(4) { transition-delay: .28s; }
+      .mob-nav.open .mob-nav-links a:nth-child(5) { transition-delay: .34s; }
+      .mob-nav-links a:hover {
+        color: var(--accent);
+      }
+      .mob-nav-links a span {
+        font-size: .65rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-family: var(--sans);
+        position: relative;
+        top: -2px;
+      }
+      .mob-nav-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        width: 100%;
+      }
+      .mob-cta-btn {
+        display: block;
+        width: 210px;
+        text-align: center;
+        background: var(--accent);
+        color: #fff;
+        padding: .85rem;
+        font-size: .75rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        opacity: 0;
+        transition: opacity .4s, background .2s;
+      }
+      .mob-nav.open .mob-cta-btn {
+        opacity: 1;
+      }
+      .mob-cta-btn:hover {
+        background: #fff;
+        color: var(--text);
+      }
+      .mob-nav-foot {
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: auto;
+        width: 100%;
+        opacity: 0;
+        transition: opacity .4s;
+      }
+      .mob-nav.open .mob-nav-foot {
+        opacity: 1;
+      }
+      .mob-nav-foot a {
+        font-size: .7rem;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: rgba(248, 246, 242, 0.3);
+        text-decoration: none;
+        transition: color .2s;
+      }
+      .mob-nav-foot a:hover {
+        color: var(--accent);
+      }
       nav.scrolled{padding:.9rem 1.4rem}
       .nav-links{display:none}
       .hamburger{display:flex}
@@ -341,18 +453,63 @@
 
 <!-- MOBILE NAV -->
 <div class="mob-nav" id="mobNav">
-  <div class="mob-nav-top"><span class="mob-nav-logo">Forme Studio</span></div>
-  <nav class="mob-nav-links">
-    <a href="#intro" onclick="closeNav()">Studio <span>01</span></a>
-    <a href="#work" onclick="closeNav()">Work <span>02</span></a>
-    <a href="#ba" onclick="closeNav()">Transformations <span>03</span></a>
-    <a href="#process" onclick="closeNav()">Process <span>04</span></a>
-    <a href="#contact" onclick="closeNav()">Contact <span>05</span></a>
-  </nav>
-  <a href="#contact" class="mob-cta-btn" onclick="closeNav()">Book a Consultation</a>
-  <div class="mob-nav-foot">
-    <a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">LinkedIn</a>
-  </div>
+
+    <div class="mob-nav-top">
+        <span class="mob-nav-logo">FORME STUDIO</span>
+    </div>
+
+    <nav class="mob-nav-links">
+
+        <a href="#intro" onclick="closeNav()">
+            Studio
+            <span>01</span>
+        </a>
+
+        <a href="#work" onclick="closeNav()">
+            Work
+            <span>02</span>
+        </a>
+
+        <a href="#ba" onclick="closeNav()">
+            Transformations
+            <span>03</span>
+        </a>
+
+        <a href="#process" onclick="closeNav()">
+            Process
+            <span>04</span>
+        </a>
+
+        <a href="#contact" onclick="closeNav()">
+            Contact
+            <span>05</span>
+        </a>
+
+    </nav>
+
+    <div class="mob-nav-buttons">
+
+        <a href="#contact"
+           class="mob-cta-btn"
+           onclick="closeNav()">
+            Book a Consultation
+        </a>
+
+        <a href="admin.html"
+           class="mob-cta-btn">
+            Admin
+        </a>
+
+    </div>
+
+    <div class="mob-nav-foot">
+
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+        <a href="#">LinkedIn</a>
+
+    </div>
+
 </div>
 
 <!-- NAV -->
@@ -488,10 +645,10 @@
 
     <div class="ba-slider fi" id="baS">
       <div class="ba-b">
-        <img id="baBI" src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80" alt="Before renovation">
+        <img id="baBI" src="LivingRoomAfter.png" alt="Before renovation">
       </div>
       <div class="ba-a" id="baA">
-        <img id="baAI" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" alt="After renovation">
+        <img id="baAI" src="LivingRoomBefore.png" alt="After renovation">
       </div>
       <div class="ba-handle" id="baH">
         <div class="ba-btn">
@@ -648,6 +805,12 @@ ham.addEventListener('click',()=>{
 });
 function closeNav(){navOpen=false;ham.classList.remove('open');mobNav.classList.remove('open');document.body.style.overflow='';}
 
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>900){
+    closeNav();
+  }
+});
+
 // ── SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
@@ -685,18 +848,18 @@ document.querySelectorAll('.wf').forEach(b=>{
 // ── BEFORE/AFTER DATA
 const baData=[
   {
-    b:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80',
-    a:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
+    b:'LivingRoomAfter.png',
+    a:'LivingRoomBefore.png',
     n:'Rue Lecourbe — Living Room',d:'6 months',sc:'Full Gut Renovation',bu:'€ 180–240k'
   },
   {
-    b:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80',
-    a:'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?auto=format&fit=crop&w=1200&q=80',
+    b:'KitchenAfter.png',
+    a:'KitchenBefore.png',
     n:'Kensington Kitchen',d:'3 months',sc:'Kitchen Overhaul',bu:'€ 80–110k'
   },
   {
-    b:'https://images.unsplash.com/photo-1503174971373-b1f69850bded?auto=format&fit=crop&w=1200&q=80',
-    a:'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1200&q=80',
+    b:'BedRoomAfter.png',
+    a:'BedRoomBefore.png',
     n:'Atelier Bastille — Master Suite',d:'10 months',sc:'Full Apartment',bu:'€ 220–300k'
   }
 ];

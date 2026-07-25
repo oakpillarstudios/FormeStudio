@@ -1337,7 +1337,7 @@
       visibility: visible;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1200px) {
       :root {
         --sidebar-width: 0px;
       }
@@ -1364,11 +1364,174 @@
       }
       
       .main-content {
-        padding: 1.5rem;
+        padding: 1rem 1.5rem;
       }
       
       .profile-info {
         display: none;
+      }
+
+      /* Compact card padding */
+      .kpi-card, .glass-card {
+        padding: 1rem !important;
+        min-height: auto !important;
+      }
+      
+      .kpi-value {
+        font-size: 1.6rem !important;
+      }
+
+      /* Scrollable tables inside container - keep row columns compact */
+      .custom-table {
+        min-width: 850px;
+      }
+      .custom-table th, .custom-table td {
+        padding: 0.75rem 1rem !important;
+        white-space: nowrap !important;
+      }
+
+      /* Maintain two column layouts for charts and split screens on tablet */
+      .charts-row, .mkt-split-layout {
+        grid-template-columns: 1.5fr 1fr !important;
+        gap: 1rem !important;
+      }
+    }
+
+    /* Stack to single column only under 768px for split layouts (e.g. charts-row, campaigns, settings) */
+    @media (max-width: 768px) {
+      .mkt-split-layout,
+      .kpi-grid[style*="grid-template-columns: 2fr 1fr"],
+      .kpi-grid[style*="grid-template-columns:2fr 1fr"],
+      div[style*="grid-template-columns: 2fr 1fr"],
+      div[style*="grid-template-columns:2fr 1fr"],
+      .charts-row[style*="grid-template-columns: 1fr 1fr"],
+      .charts-row[style*="grid-template-columns:1fr 1fr"],
+      .charts-row {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .chart-container {
+        height: 220px !important; /* Scale charts proportionally smaller on mobile */
+      }
+    }
+
+    /* KPI columns grid scaling system (5 -> 4 -> 3 -> 2 -> 1) */
+    @media (min-width: 1400px) {
+      .kpi-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+      }
+    }
+    @media (max-width: 1399px) and (min-width: 1025px) {
+      .kpi-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+      }
+    }
+    @media (max-width: 1024px) and (min-width: 768px) {
+      .kpi-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+    @media (max-width: 767px) and (min-width: 360px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* Maintain 2 columns on mobile for compact layout */
+        gap: 0.75rem !important;
+      }
+    }
+    @media (max-width: 359px) {
+      .kpi-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    /* Keep form fields side-by-side (2 columns) on tablets and mobile down to 480px */
+    @media (max-width: 768px) {
+      .form-grid,
+      .form-grid[style*="grid-template-columns"],
+      div[class*="form-grid"] {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.75rem !important;
+      }
+      .form-group.full-width {
+        grid-column: span 2 !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .form-grid,
+      .form-grid[style*="grid-template-columns"],
+      div[class*="form-grid"] {
+        grid-template-columns: 1fr !important;
+      }
+      .form-group.full-width {
+        grid-column: span 1 !important;
+      }
+    }
+
+    /* Smaller device scaling details */
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 0.75rem 1rem !important;
+      }
+      .page-header {
+        display: flex !important;
+        flex-direction: row !important; /* Keep aligned side by side if possible */
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        margin-bottom: 0.75rem !important;
+      }
+      .page-title {
+        font-size: 1.6rem !important;
+      }
+      .filter-bar {
+        display: flex !important;
+        flex-direction: row !important; /* Keep search and select aligned horizontally */
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+      }
+      .search-input-wrapper {
+        flex-grow: 1 !important;
+        max-width: 60% !important;
+      }
+      .select-control {
+        min-width: 110px !important;
+      }
+      .welcome-banner {
+        padding: 1.25rem !important;
+        margin-bottom: 1rem !important;
+      }
+      .welcome-banner-title {
+        font-size: 1.6rem !important;
+      }
+      .welcome-banner-text {
+        font-size: 0.8rem !important;
+        margin-top: 0.4rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-badge {
+        display: none !important;
+      }
+      .nav-title {
+        font-size: 1.15rem !important;
+      }
+      .page-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+      }
+      .filter-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.5rem !important;
+      }
+      .search-input-wrapper {
+        max-width: 100% !important;
+      }
+      .select-control {
+        width: 100% !important;
       }
     }
     /* ── SAAS MARKETING LAYOUT CLASSES ── */
