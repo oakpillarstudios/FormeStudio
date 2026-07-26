@@ -6,9 +6,8 @@
   <title>Studio Management System — Forme Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -26,7 +25,7 @@
       --accent-hover: #73573F;
       --border: rgba(0, 0, 0, 0.06);
       --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Inter', system-ui, sans-serif;
+      --sans: 'Manrope', 'Inter', system-ui, sans-serif;
       --sidebar-width: 280px;
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       --glass-bg: rgba(255, 255, 255, 0.45);
@@ -43,6 +42,14 @@
       --status-info-color: #2980b9;
     }
     
+    svg:not(.svg-chart):not(.welcome-banner svg) {
+      fill: none !important;
+      stroke: currentColor !important;
+      stroke-width: 1.5px !important;
+      stroke-linecap: round !important;
+      stroke-linejoin: round !important;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -145,13 +152,16 @@
       transition: var(--transition);
     }
     
-    .menu-item a svg {
+    .menu-item a svg, .menu-item a i {
       width: 18px;
       height: 18px;
       stroke: var(--text2);
       stroke-width: 1.5;
       fill: none;
       transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .menu-item.active a {
@@ -159,7 +169,7 @@
       color: #fff;
     }
     
-    .menu-item.active a svg {
+    .menu-item.active a svg, .menu-item.active a i {
       stroke: #fff;
     }
     
@@ -169,7 +179,7 @@
       transform: translateX(4px);
     }
     
-    .menu-item:not(.active) a:hover svg {
+    .menu-item:not(.active) a:hover svg, .menu-item:not(.active) a:hover i {
       stroke: var(--accent);
     }
     
@@ -442,6 +452,17 @@
       transform: translateY(-2px);
       border-color: var(--accent);
     }
+
+    .bi-export-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg2);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      gap: 0.5rem;
+    }
     
     .kpi-header {
       display: flex;
@@ -650,6 +671,15 @@
       border-radius: 8px;
     }
     
+    #table-projects {
+      font-size: 0.8rem;
+    }
+    #table-projects th,
+    #table-projects td {
+      padding: 0.7rem 0.9rem;
+      white-space: nowrap;
+    }
+    
     .custom-table {
       width: 100%;
       border-collapse: collapse;
@@ -748,6 +778,22 @@
     .btn-secondary:hover {
       background: rgba(0,0,0,0.02);
       color: var(--text);
+    }
+
+    .bi-filter-group .btn {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .bi-filter-group .btn.active {
+      background: var(--accent) !important;
+      color: #fff !important;
+      border-color: var(--accent) !important;
+      box-shadow: 0 4px 10px rgba(197, 160, 89, 0.25) !important;
+      transform: scale(1.03);
+    }
+
+    .svg-chart rect, .svg-chart path, .svg-chart polyline, .svg-chart circle {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .btn-small {
@@ -1215,7 +1261,7 @@
     .invoice-preview-container {
       background: #fff;
       color: #333;
-      padding: 3rem;
+      padding: 1.5rem 2rem;
       font-family: var(--sans);
       border-radius: 8px;
     }
@@ -1224,13 +1270,13 @@
       display: flex;
       justify-content: space-between;
       border-bottom: 2px solid #f2f2f2;
-      padding-bottom: 1.5rem;
-      margin-bottom: 2rem;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
     }
     
     .inv-logo {
       font-family: var(--serif);
-      font-size: 2rem;
+      font-size: 1.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: #2A211D;
@@ -1238,84 +1284,104 @@
     
     .inv-details {
       text-align: right;
-      font-size: 0.85rem;
-      line-height: 1.5;
+      font-size: 0.82rem;
+      line-height: 1.4;
     }
     
     .inv-bill-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 2rem;
-      font-size: 0.85rem;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
     }
     
     .inv-bill-to h4, .inv-from h4 {
       text-transform: uppercase;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 0.05em;
       color: #888;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
     
     .inv-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
     
     .inv-table th {
       border-bottom: 2px solid #ddd;
-      padding: 0.75rem;
+      padding: 0.5rem;
       font-weight: 600;
       text-align: left;
+      font-size: 0.8rem;
     }
     
     .inv-table td {
       border-bottom: 1px solid #eee;
-      padding: 0.75rem;
+      padding: 0.5rem;
+      font-size: 0.8rem;
     }
     
     .inv-summary {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 0.5rem;
-      font-size: 0.9rem;
+      gap: 0.35rem;
+      font-size: 0.85rem;
     }
     
     .inv-summary-row {
       display: flex;
       justify-content: space-between;
-      width: 250px;
+      width: 220px;
     }
     
     .inv-total {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       border-top: 1px solid #ddd;
-      padding-top: 0.5rem;
-      margin-top: 0.5rem;
+      padding-top: 0.35rem;
+      margin-top: 0.35rem;
     }
 
     /* Print styles */
     @media print {
-      body * {
-        visibility: hidden;
+      body {
+        background: #fff !important;
+        color: #000 !important;
       }
-      .modal.open .invoice-preview-container, .modal.open .invoice-preview-container * {
-        visibility: visible;
-      }
-      .modal.open .invoice-preview-container {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        box-shadow: none;
-        padding: 0;
-      }
-      .modal-header, .modal-footer, .modal-overlay {
+      .app-container,
+      .sidebar,
+      .navbar,
+      .modal-overlay,
+      .modal-header,
+      .modal-footer,
+      .modal-close,
+      .modal:not(#modal-invoice-preview) {
         display: none !important;
+      }
+      .modal#modal-invoice-preview {
+        position: static !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: none !important;
+      }
+      .modal#modal-invoice-preview .modal-container {
+        position: static !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-shadow: none !important;
+        background: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .invoice-preview-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
       }
     }
 
@@ -1431,15 +1497,43 @@
         grid-template-columns: repeat(3, 1fr) !important;
       }
     }
-    @media (max-width: 767px) and (min-width: 360px) {
-      .kpi-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* Maintain 2 columns on mobile for compact layout */
-        gap: 0.75rem !important;
+    @media (max-width: 767px) {
+      .kpi-grid,
+      div[style*="grid-template-columns"]:has(.kpi-card) {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem !important;
       }
-    }
-    @media (max-width: 359px) {
-      .kpi-grid {
-        grid-template-columns: 1fr !important;
+      
+      .kpi-card {
+        padding: 0.75rem !important;
+        border-radius: 8px !important;
+        min-height: auto !important;
+      }
+      
+      .kpi-header {
+        font-size: 0.62rem !important;
+        letter-spacing: 0.02em !important;
+      }
+      
+      .kpi-icon {
+        width: 24px !important;
+        height: 24px !important;
+        border-radius: 4px !important;
+      }
+      
+      .kpi-icon svg, .kpi-icon i {
+        width: 12px !important;
+        height: 12px !important;
+      }
+      
+      .kpi-value {
+        font-size: 1.3rem !important;
+        margin: 0.35rem 0 0.15rem !important;
+      }
+      
+      .kpi-footer {
+        font-size: 0.6rem !important;
+        flex-wrap: wrap !important;
       }
     }
 
@@ -1464,6 +1558,28 @@
       }
       .form-group.full-width {
         grid-column: span 1 !important;
+      }
+      .bi-export-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.75rem !important;
+      }
+      .bi-export-item div {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+      }
+      .kpi-card {
+        padding: 0.5rem !important;
+      }
+      .kpi-value {
+        font-size: 1.15rem !important;
+      }
+      .kpi-header {
+        font-size: 0.58rem !important;
+      }
+      .kpi-footer {
+        font-size: 0.52rem !important;
       }
     }
 
@@ -1905,73 +2021,73 @@
     <ul class="sidebar-menu">
       <li class="menu-item active" data-target="dashboard">
         <a href="#dashboard">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <i data-lucide="layout-dashboard"></i>
           Dashboard
         </a>
       </li>
       <li class="menu-item" data-target="projects">
         <a href="#projects">
-          <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+          <i data-lucide="briefcase"></i>
           Projects
         </a>
       </li>
       <li class="menu-item" data-target="clients">
         <a href="#clients">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <i data-lucide="users"></i>
           Clients
         </a>
       </li>
       <li class="menu-item" data-target="materials">
         <a href="#materials">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <i data-lucide="layers"></i>
           Materials & Inventory
         </a>
       </li>
       <li class="menu-item" data-target="finance">
         <a href="#finance">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <i data-lucide="dollar-sign"></i>
           Finance
         </a>
       </li>
       <li class="menu-item" data-target="invoices">
         <a href="#invoices">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <i data-lucide="file-text"></i>
           Invoices
         </a>
       </li>
       <li class="menu-item" data-target="marketing">
         <a href="#marketing">
-          <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          <i data-lucide="megaphone"></i>
           Marketing
         </a>
       </li>
       <li class="menu-item" data-target="leads">
         <a href="#leads">
-          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 18.92z"/></svg>
+          <i data-lucide="phone-call"></i>
           Leads & Enquiries
         </a>
       </li>
       <li class="menu-item" data-target="team">
         <a href="#team">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <i data-lucide="user-check"></i>
           Team
         </a>
       </li>
       <li class="menu-item" data-target="reports">
         <a href="#reports">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <i data-lucide="bar-chart-3"></i>
           Reports & Analytics
         </a>
       </li>
       <li class="menu-item" data-target="documents">
         <a href="#documents">
-          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <i data-lucide="folder"></i>
           Documents
         </a>
       </li>
       <li class="menu-item" data-target="settings">
         <a href="#settings">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <i data-lucide="settings"></i>
           Settings
         </a>
       </li>
@@ -1979,7 +2095,7 @@
     <div class="sidebar-footer">
       <li class="menu-item" style="list-style: none;">
         <a href="#" onclick="handleLogout(); return false;" style="color: #c0392b;">
-          <svg viewBox="0 0 24 24" style="stroke: #c0392b;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <i data-lucide="log-out" style="stroke: #c0392b;"></i>
           Logout
         </a>
       </li>
@@ -1998,7 +2114,25 @@
         <h2 class="nav-title" id="navbarTitle">Studio Dashboard</h2>
         <span class="admin-badge">ERP System</span>
       </div>
-      <div class="nav-right">
+      <div class="nav-right" style="display: flex; align-items: center;">
+        <!-- Notification Bell -->
+        <div class="nav-notification-center" style="position: relative; margin-right: 1.25rem; display: flex; align-items: center;">
+          <button class="notification-bell-btn" id="notificationBellBtn" style="background: none; border: none; cursor: pointer; color: var(--text); padding: 0.5rem; display: flex; align-items: center; position: relative;" onclick="toggleNotificationDropdown(event)">
+            <i data-lucide="bell" style="width: 20px; height: 20px;"></i>
+            <span class="notification-badge" id="notificationBadgeCount" style="position: absolute; top: 0; right: 0; background: var(--accent); color: white; font-size: 0.65rem; font-weight: bold; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">5</span>
+          </button>
+          
+          <div class="notification-dropdown" id="notificationDropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 320px; background: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); z-index: 1000; margin-top: 0.5rem; max-height: 400px; overflow-y: auto;">
+            <div class="notification-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: var(--bg2);">
+              <h4 style="margin: 0; font-family: var(--serif); font-weight: 500; font-size: 0.95rem;">Notifications</h4>
+              <button onclick="clearNotifications()" style="background: none; border: none; font-size: 0.75rem; color: var(--accent); cursor: pointer;">Clear All</button>
+            </div>
+            <div class="notification-list" id="notificationList" style="display: flex; flex-direction: column;">
+              <!-- Dynamic Notifications -->
+            </div>
+          </div>
+        </div>
+
         <div class="user-profile">
           <div class="profile-info">
             <div class="profile-name">Forme Admin</div>
@@ -2030,7 +2164,7 @@
               <span>Total Revenue</span>
               <div class="kpi-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
             </div>
-            <div class="kpi-value" id="kpi-revenue">€518,400</div>
+            <div class="kpi-value" id="kpi-revenue">₹518,400</div>
             <div class="kpi-footer"><span class="trend-up">↑ 12%</span> vs last month</div>
           </div>
           <div class="kpi-card">
@@ -2038,7 +2172,7 @@
               <span>Net Profit</span>
               <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
             </div>
-            <div class="kpi-value" id="kpi-profit">€164,250</div>
+            <div class="kpi-value" id="kpi-profit">₹164,250</div>
             <div class="kpi-footer"><span class="trend-up">↑ 8.4%</span> efficiency rating</div>
           </div>
           <div class="kpi-card">
@@ -2066,11 +2200,11 @@
           </div>
           <div class="kpi-card" style="min-height: 100px; padding: 1.25rem;">
             <div class="kpi-header" style="font-size: 0.65rem;"><span>Pending Payments</span></div>
-            <div class="kpi-value" style="font-size: 1.6rem; color: #d35400;" id="kpi-pending-payments">€44,120</div>
+            <div class="kpi-value" style="font-size: 1.6rem; color: #d35400;" id="kpi-pending-payments">₹44,120</div>
           </div>
           <div class="kpi-card" style="min-height: 100px; padding: 1.25rem;">
             <div class="kpi-header" style="font-size: 0.65rem;"><span>Monthly Expenses</span></div>
-            <div class="kpi-value" style="font-size: 1.6rem;" id="kpi-expenses">€18,650</div>
+            <div class="kpi-value" style="font-size: 1.6rem;" id="kpi-expenses">₹18,650</div>
           </div>
           <div class="kpi-card" style="min-height: 100px; padding: 1.25rem;">
             <div class="kpi-header" style="font-size: 0.65rem;"><span>Low Stock Materials</span></div>
@@ -2118,10 +2252,10 @@
                 <text x="470" y="215" fill="var(--text2)" font-size="10" text-anchor="middle">Jul</text>
                 <text x="560" y="215" fill="var(--text2)" font-size="10" text-anchor="middle">Aug</text>
                 <!-- Y axis labels -->
-                <text x="40" y="194" fill="var(--text2)" font-size="9" text-anchor="end">€0</text>
-                <text x="40" y="144" fill="var(--text2)" font-size="9" text-anchor="end">€20k</text>
-                <text x="40" y="94" fill="var(--text2)" font-size="9" text-anchor="end">€40k</text>
-                <text x="40" y="44" fill="var(--text2)" font-size="9" text-anchor="end">€60k</text>
+                <text x="40" y="194" fill="var(--text2)" font-size="9" text-anchor="end">₹0</text>
+                <text x="40" y="144" fill="var(--text2)" font-size="9" text-anchor="end">₹20k</text>
+                <text x="40" y="94" fill="var(--text2)" font-size="9" text-anchor="end">₹40k</text>
+                <text x="40" y="44" fill="var(--text2)" font-size="9" text-anchor="end">₹60k</text>
               </svg>
             </div>
           </div>
@@ -2408,6 +2542,9 @@
             <div class="pagination-buttons" id="pagination-finance"></div>
           </div>
         </div>
+
+        <!-- Financial Analysis Panel -->
+        <div id="finance-analysis-charts" style="margin-top: 2rem;"></div>
       </div>
 
       <!-- =======================================================
@@ -2472,10 +2609,10 @@
            MARKETING VIEW
            ======================================================= -->
       <div id="view-marketing" class="dashboard-view">
-        <div class="page-header" style="position: sticky; top: 0; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); z-index: 10; padding: 1rem 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem;">
+        <div class="page-header">
           <div>
-            <h1 class="page-title" style="font-size: 1.6rem; font-weight: 700; color: var(--text);">Campaign Desk & Outreach Suite</h1>
-            <p class="page-subtitle" style="font-size: 0.8rem; color: var(--text2);">SaaS Marketing control panel for WhatsApp broadcasts, HTML templates, and automated workflows.</p>
+            <h1 class="page-title">Campaign Desk & Outreach Suite</h1>
+            <p class="page-subtitle">SaaS Marketing control panel for WhatsApp broadcasts, HTML templates, and automated workflows.</p>
           </div>
           <div class="action-group">
             <div class="marketing-tab-container">
@@ -2641,8 +2778,8 @@
                     </div>
                   </div>
 
-                  <!-- Composer Actions Sticky Bar -->
-                  <div style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem; background: rgba(255,255,255,0.7); border:1px solid var(--border); border-radius: 8px; backdrop-filter: blur(10px); position: sticky; bottom: 1rem; z-index: 5; box-shadow: var(--shadow);">
+                  <!-- Composer Actions Bar -->
+                  <div style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem 0; margin-top: 1.5rem;">
                     <button type="button" class="btn btn-secondary" onclick="saveCampaignDraft('whatsapp')">Save Draft</button>
                     <button type="submit" class="btn btn-primary" id="wa-submit-btn">Send Campaign Now</button>
                   </div>
@@ -2677,9 +2814,9 @@
                   <h3 style="font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.75rem;">Campaign Cost Summary</h3>
                   <div class="mkt-summary-card">
                     <div class="mkt-summary-row"><span>Mailing Count</span><span id="wa-sum-contacts">0 contacts</span></div>
-                    <div class="mkt-summary-row"><span>Channel API Rate</span><span>€0.015 / message</span></div>
-                    <div class="mkt-summary-row"><span>Attachment Tax</span><span id="wa-sum-attachment">€0.000</span></div>
-                    <div class="mkt-summary-row total"><span>Total Estimated Cost</span><span id="wa-sum-cost">€0.00</span></div>
+                    <div class="mkt-summary-row"><span>Channel API Rate</span><span>₹0.015 / message</span></div>
+                    <div class="mkt-summary-row"><span>Attachment Tax</span><span id="wa-sum-attachment">₹0.000</span></div>
+                    <div class="mkt-summary-row total"><span>Total Estimated Cost</span><span id="wa-sum-cost">₹0.00</span></div>
                   </div>
                 </div>
 
@@ -2796,7 +2933,7 @@
                 <div class="mkt-flow-connector"></div>
                 <div class="mkt-flow-node" style="border-radius: 50% 50% 50% 50% / 12% 12% 12% 12%; text-align:center;">
                   <div class="mkt-flow-node-header" style="justify-content:center;"><span style="color:#f39c12;">◆</span> Segment Query</div>
-                  <div class="mkt-flow-node-body" style="font-size:0.75rem;">Budget Value > €150K?</div>
+                  <div class="mkt-flow-node-body" style="font-size:0.75rem;">Budget Value > ₹150K?</div>
                 </div>
                 <div style="display: flex; gap: 3rem; align-items: center; margin-top: -0.5rem;">
                   <div style="display:flex; flex-direction:column; align-items:center;">
@@ -2906,7 +3043,7 @@
             </div>
             <div class="kpi-card" style="padding: 1rem;">
               <div class="kpi-header" style="font-size: 0.72rem;"><span>Total Revenue</span></div>
-              <div class="kpi-value" id="em-kpi-rev" style="font-size: 1.4rem;">€84,500</div>
+              <div class="kpi-value" id="em-kpi-rev" style="font-size: 1.4rem;">₹84,500</div>
               <div class="kpi-footer" style="font-size: 0.65rem;">From mail conversions</div>
             </div>
           </div>
@@ -3039,8 +3176,8 @@
                     </div>
                   </div>
 
-                  <!-- composer actions bar -->
-                  <div style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem; background: rgba(255,255,255,0.7); border:1px solid var(--border); border-radius: 8px; backdrop-filter: blur(10px); position: sticky; bottom: 1rem; z-index: 5; box-shadow: var(--shadow);">
+                  <!-- Composer Actions Bar -->
+                  <div style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem 0; margin-top: 1.5rem;">
                     <button type="button" class="btn btn-secondary" onclick="saveCampaignDraft('email')">Save Draft</button>
                     <button type="submit" class="btn btn-primary" id="em-submit-btn">Send Campaign Now</button>
                   </div>
@@ -3059,7 +3196,7 @@
                       <option value="Current Clients">Active Project clients</option>
                       <option value="Past Clients">Completed Project clients</option>
                       <option value="Leads">Website Enquiries Leads</option>
-                      <option value="VIP Clients">VIP Tier (Volume > €200K)</option>
+                      <option value="VIP Clients">VIP Tier (Volume > ₹200K)</option>
                     </select>
                   </div>
                   <div class="form-group" style="margin-bottom: 1rem;">
@@ -3076,8 +3213,8 @@
                   <h3 style="font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.75rem;">Campaign dispatch summary</h3>
                   <div class="mkt-summary-card">
                     <div class="mkt-summary-row"><span>Recipients Count</span><span id="em-sum-contacts">0 subscribers</span></div>
-                    <div class="mkt-summary-row"><span>SMTP Server Cost</span><span>€0.000 / email</span></div>
-                    <div class="mkt-summary-row total"><span>Net Campaign Cost</span><span>€0.00 (Unlimited SMTP)</span></div>
+                    <div class="mkt-summary-row"><span>SMTP Server Cost</span><span>₹0.000 / email</span></div>
+                    <div class="mkt-summary-row total"><span>Net Campaign Cost</span><span>₹0.00 (Unlimited SMTP)</span></div>
                   </div>
                 </div>
 
@@ -3406,37 +3543,52 @@
            REPORTS VIEW
            ======================================================= -->
       <div id="view-reports" class="dashboard-view">
-        <div class="page-header">
+        <!-- Dashboard Header & Date Filters -->
+        <div class="page-header" style="flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
           <div>
-            <h1 class="page-title">Executive Reports & Data Analytics</h1>
-            <p class="page-subtitle">Generate exports on monthly conversions, profit statements, and employee benchmarks.</p>
+            <h1 class="page-title" style="font-family: var(--serif); font-size: 1.8rem; font-weight: 300;">Business Intelligence (BI) Dashboard</h1>
+            <p class="page-subtitle" style="color: var(--text2); font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span>Real-time enterprise metrics, financial performance, project benchmarks, and campaign ROI.</span>
+              <span id="bi-active-period-badge" style="display: inline-block; padding: 0.15rem 0.5rem; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease;">THIS MONTH</span>
+            </p>
+          </div>
+          <div class="action-group bi-filter-group" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary active" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'month')">This Month</button>
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'week')">This Week</button>
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'last_month')">Last Month</button>
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'quarter')">Quarterly</button>
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'year')">Yearly</button>
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.7rem;" onclick="setBIFilter(this, 'custom')">Custom Range</button>
           </div>
         </div>
         
-        <div class="kpi-grid">
-          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
-            <h3 style="font-family: var(--serif); font-size: 1.3rem;">Revenue & Performance Exports</h3>
-            <p style="color: var(--text2); font-size: 0.9rem;">Download full auditing databases formatted for Microsoft Excel or PDF document compliance.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-              <button class="btn btn-secondary" onclick="triggerReportDownload('Revenue', 'Excel')">Revenue Report (Excel)</button>
-              <button class="btn btn-primary" onclick="triggerReportDownload('Revenue', 'PDF')">Revenue Report (PDF)</button>
-              <button class="btn btn-secondary" onclick="triggerReportDownload('Project Performance', 'Excel')">Project Audit (Excel)</button>
-              <button class="btn btn-primary" onclick="triggerReportDownload('Project Performance', 'PDF')">Project Audit (PDF)</button>
-            </div>
-          </div>
+        <!-- Dynamic BI Charts Workspace -->
+        <div id="bi-charts-container"></div>
+
+        <!-- Enterprise Export Center -->
+        <div class="glass-card" style="margin-bottom: 2rem; padding: 1.5rem;">
+          <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 0.5rem;"><i data-lucide="download" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px;"></i>Enterprise Export Center</h3>
+          <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;">Generate audited tax compliance statements, client registries, inventory ledgers, and marketing campaign performance reports in standard enterprise formats.</p>
           
-          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
-            <h3 style="font-family: var(--serif); font-size: 1.3rem;">Operations Audits</h3>
-            <p style="color: var(--text2); font-size: 0.9rem;">Review lead-source conversion stats, supplier pricing indexes, and material stock charts.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-              <button class="btn btn-secondary" onclick="triggerReportDownload('Inventory Usage', 'Excel')">Inventory Log (Excel)</button>
-              <button class="btn btn-primary" onclick="triggerReportDownload('Inventory Usage', 'PDF')">Inventory Log (PDF)</button>
-              <button class="btn btn-secondary" onclick="triggerReportDownload('Marketing Conversion', 'Excel')">Lead Conversion (Excel)</button>
-              <button class="btn btn-primary" onclick="triggerReportDownload('Marketing Conversion', 'PDF')">Lead Conversion (PDF)</button>
-            </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="triggerReportDownload('Current Report', 'Excel')">Export Current Report (Excel)</button>
+            <button class="btn btn-secondary" onclick="triggerReportDownload('Current Report', 'PDF')">Download Current Report (PDF)</button>
+            <button class="btn btn-secondary" onclick="triggerReportDownload('Current Report', 'CSV')">Export Current Report (CSV)</button>
+            <button class="btn btn-primary" onclick="window.print()">Print Current Report</button>
           </div>
         </div>
+
+        <!-- Executive Summary Section -->
+        <div id="bi-insights-container" style="margin-bottom: 2rem;"></div>
       </div>
+
+
+
+
+
+
+
+
 
       <!-- =======================================================
            DOCUMENTS VIEW
@@ -3453,15 +3605,29 @@
         </div>
         
         <div class="glass-card">
-          <div class="filter-bar">
-            <div class="search-input-wrapper">
+          <div class="filter-bar" style="margin-bottom: 1.5rem;">
+            <div class="search-input-wrapper" style="max-width: 320px;">
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input type="text" class="search-control" placeholder="Search files by name..." id="search-documents" oninput="filterTable('documents')">
             </div>
           </div>
           
-          <div class="docs-grid" id="tbody-documents">
-            <!-- Javascript populated doc cards -->
+          <div class="table-responsive">
+            <table class="custom-table" id="table-documents">
+              <thead>
+                <tr>
+                  <th onclick="sortDocs('name')" style="cursor: pointer; user-select: none;">File Name <span id="sort-icon-doc-name" style="font-size: 0.75rem; margin-left: 0.2rem; color: var(--accent);">⇅</span></th>
+                  <th onclick="sortDocs('type')" style="cursor: pointer; user-select: none;">Type <span id="sort-icon-doc-type" style="font-size: 0.75rem; margin-left: 0.2rem; color: var(--accent);">⇅</span></th>
+                  <th onclick="sortDocs('category')" style="cursor: pointer; user-select: none;">Category <span id="sort-icon-doc-category" style="font-size: 0.75rem; margin-left: 0.2rem; color: var(--accent);">⇅</span></th>
+                  <th onclick="sortDocs('size')" style="cursor: pointer; user-select: none;">Size <span id="sort-icon-doc-size" style="font-size: 0.75rem; margin-left: 0.2rem; color: var(--accent);">⇅</span></th>
+                  <th onclick="sortDocs('date')" style="cursor: pointer; user-select: none;">Date Modified <span id="sort-icon-doc-date" style="font-size: 0.75rem; margin-left: 0.2rem; color: var(--accent);">⇅</span></th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-documents">
+                <!-- Javascript populated table rows -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -3480,59 +3646,65 @@
           </div>
         </div>
         
-        <div class="kpi-grid" style="grid-template-columns: 2fr 1fr;">
-          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <h3 style="font-family: var(--serif); font-size: 1.3rem;">Company Ledger Details</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Company Legal Name</label>
-                <input type="text" class="form-control" id="settings-company-name" value="Forme Studio Interior Architecture">
-              </div>
-              <div class="form-group">
-                <label>GST / Tax Identification Number</label>
-                <input type="text" class="form-control" id="settings-company-gst" value="FR87541296541">
-              </div>
-              <div class="form-group full-width">
-                <label>Corporate Head Office Address</label>
-                <input type="text" class="form-control" id="settings-company-address" value="7 Rue du Faubourg, Paris 75008">
-              </div>
-              <div class="form-group">
-                <label>General Contact Email</label>
-                <input type="email" class="form-control" id="settings-company-email" value="hello@formestudio.com">
-              </div>
-              <div class="form-group">
-                <label>Contact Phone Number</label>
-                <input type="text" class="form-control" id="settings-company-phone" value="+33 1 42 00 00 00">
-              </div>
+        <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+          <!-- Card 1: Company details -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="building-2" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px; color: var(--accent);"></i>Company Information</h3>
+            <div class="form-group">
+              <label>Company Legal Name</label>
+              <input type="text" class="form-control" id="settings-company-name" value="Forme Studio Interior Architecture">
             </div>
-            
-            <h3 style="font-family: var(--serif); font-size: 1.3rem; margin-top: 1rem;">System Notification Endpoints</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>SMTP Mail Server Domain</label>
-                <input type="text" class="form-control" value="smtp.formestudio.com">
-              </div>
-              <div class="form-group">
-                <label>SMTP Password Auth</label>
-                <input type="password" class="form-control" value="•••••••••••••••">
-              </div>
-              <div class="form-group">
-                <label>WhatsApp Hook Signature Key</label>
-                <input type="password" class="form-control" value="••••••••••••••••••••••••••••••••">
-              </div>
-              <div class="form-group">
-                <label>Base Currency Symbol</label>
-                <select class="select-control" style="width: 100%;">
-                  <option>EUR (€)</option>
-                  <option>USD ($)</option>
-                  <option>GBP (£)</option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label>GST / Tax Identification Number</label>
+              <input type="text" class="form-control" id="settings-company-gst" value="FR87541296541">
+            </div>
+            <div class="form-group">
+              <label>Corporate Head Office Address</label>
+              <input type="text" class="form-control" id="settings-company-address" value="7 Rue du Faubourg, Paris 75008">
             </div>
           </div>
-          
-          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <h3 style="font-family: var(--serif); font-size: 1.3rem;">ERP Theme & Security</h3>
+
+          <!-- Card 2: Contact & Currency -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="mail" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px; color: var(--accent);"></i>Contact & Localization</h3>
+            <div class="form-group">
+              <label>General Contact Email</label>
+              <input type="email" class="form-control" id="settings-company-email" value="hello@formestudio.com">
+            </div>
+            <div class="form-group">
+              <label>Contact Phone Number</label>
+              <input type="text" class="form-control" id="settings-company-phone" value="+33 1 42 00 00 00">
+            </div>
+            <div class="form-group">
+              <label>Base Currency Symbol</label>
+              <select class="select-control" style="width: 100%;">
+                <option>EUR (₹)</option>
+                <option>USD ($)</option>
+                <option>GBP (£)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Card 3: System Notifications -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="cpu" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px; color: var(--accent);"></i>System Notifications</h3>
+            <div class="form-group">
+              <label>SMTP Mail Server Domain</label>
+              <input type="text" class="form-control" value="smtp.formestudio.com">
+            </div>
+            <div class="form-group">
+              <label>SMTP Password Auth</label>
+              <input type="password" class="form-control" value="•••••••••••••••">
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Hook Signature Key</label>
+              <input type="password" class="form-control" value="••••••••••••••••••••••••••••••••">
+            </div>
+          </div>
+
+          <!-- Card 4: ERP Configuration -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px; color: var(--accent);"></i>ERP Theme & Security</h3>
             <div class="form-group">
               <label>Dashboard Mode</label>
               <select class="select-control" style="width: 100%;">
@@ -3547,11 +3719,11 @@
                 <option>Manual Approvals</option>
               </select>
             </div>
-            <div class="form-group" style="margin-top: 1rem;">
+            <div class="form-group">
               <label>Current Session Auth</label>
-              <div style="font-size: 0.8rem; color: var(--text2); border: 1px solid var(--border); padding: 0.75rem; border-radius: 6px; background: rgba(0,0,0,0.02)">
+              <div style="font-size: 0.8rem; color: var(--text2); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 6px; background: rgba(0,0,0,0.02)">
                 Logged in: <strong>admin@example.com</strong><br>
-                Permissions level: <strong>Full Admin ERP</strong>
+                Permissions: <strong>Full Admin ERP</strong>
               </div>
             </div>
           </div>
@@ -3569,8 +3741,8 @@
   <!-- PROJECTS MODAL -->
   <div class="modal" id="modal-projects">
     <div class="modal-overlay" onclick="closeModal('projects')"></div>
-    <div class="modal-container">
-      <div class="modal-header">
+    <div class="modal-container" style="max-width: 800px; padding: 1.25rem;">
+      <div class="modal-header" style="margin-bottom: 1rem; padding-bottom: 0.5rem;">
         <h3 class="modal-title" id="modal-title-projects">Add New Project</h3>
         <button class="modal-close" onclick="closeModal('projects')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -3578,53 +3750,58 @@
       </div>
       <form id="form-projects" onsubmit="handleFormSubmit(event, 'projects')">
         <input type="hidden" id="form-id-projects">
-        <div class="modal-body">
-          <div class="form-grid">
+        <div class="modal-body" style="padding: 0; margin-bottom: 1rem;">
+          <div class="form-grid-bi" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
             <div class="form-group">
-              <label for="project-name">Project Name</label>
-              <input type="text" id="project-name" class="form-control" required placeholder="Maison Tolbiac">
+              <label for="project-name" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Project Name</label>
+              <input type="text" id="project-name" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required placeholder="Maison Tolbiac">
             </div>
             <div class="form-group">
-              <label for="project-client">Client Name</label>
-              <input type="text" id="project-client" class="form-control" required placeholder="Emma Watson">
+              <label for="project-client" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Client Name</label>
+              <input type="text" id="project-client" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required placeholder="Emma Watson">
             </div>
             <div class="form-group">
-              <label for="project-status">Project Status</label>
-              <select id="project-status" class="select-control" style="width: 100%;">
+              <label for="project-status" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Project Status</label>
+              <select id="project-status" class="select-control" style="width: 100%; font-size: 0.8rem; padding: 0.4rem 0.6rem; height: 32px;">
                 <option value="ACTIVE">Active</option>
                 <option value="COMPLETED">Completed</option>
                 <option value="PROPOSAL">Proposal</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="project-progress">Progress %</label>
-              <input type="number" id="project-progress" class="form-control" min="0" max="100" required placeholder="65">
+              <label for="project-budget" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Project Budget (₹)</label>
+              <input type="number" id="project-budget" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required placeholder="240000">
             </div>
             <div class="form-group">
-              <label for="project-budget">Project Budget (€)</label>
-              <input type="number" id="project-budget" class="form-control" required placeholder="240000">
+              <label for="project-estcost" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Estimated Cost (₹)</label>
+              <input type="number" id="project-estcost" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required placeholder="180000">
             </div>
             <div class="form-group">
-              <label for="project-estcost">Estimated Cost (€)</label>
-              <input type="number" id="project-estcost" class="form-control" required placeholder="180000">
+              <label for="project-actcost" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Actual Cost (₹)</label>
+              <input type="number" id="project-actcost" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required placeholder="190000">
             </div>
             <div class="form-group">
-              <label for="project-actcost">Actual Cost (€)</label>
-              <input type="number" id="project-actcost" class="form-control" required placeholder="190000">
+              <label for="project-enddate" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Due End Date</label>
+              <input type="date" id="project-enddate" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;" required>
             </div>
-            <div class="form-group">
-              <label for="project-enddate">Due End Date</label>
-              <input type="date" id="project-enddate" class="form-control" required>
+            <div class="form-group" style="grid-column: span 2;">
+              <label for="project-progress" style="font-size: 0.75rem; margin-bottom: 0.25rem; display: flex; justify-content: space-between;">
+                <span>Progress</span>
+                <strong id="project-progress-val">0%</strong>
+              </label>
+              <div style="display: flex; align-items: center; gap: 0.5rem; height: 32px;">
+                <input type="range" id="project-progress" min="0" max="100" value="0" class="form-control" style="width: 100%; height: auto; padding: 0; cursor: pointer; accent-color: var(--accent);" oninput="document.getElementById('project-progress-val').textContent = this.value + '%'">
+              </div>
             </div>
-            <div class="form-group full-width">
-              <label for="project-notes">Scope Details & Design Notes</label>
-              <textarea id="project-notes" class="form-control" placeholder="Full residential remodel, hardwood floors..."></textarea>
+            <div class="form-group" style="grid-column: span 3; margin: 0;">
+              <label for="project-notes" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Scope Details & Design Notes</label>
+              <textarea id="project-notes" class="form-control" style="font-size: 0.8rem; padding: 0.4rem 0.6rem; height: 48px; min-height: 48px;" placeholder="Full residential remodel, hardwood floors..."></textarea>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="closeModal('projects')">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Project</button>
+        <div class="modal-footer" style="padding-top: 0.5rem; margin: 0; display: flex; justify-content: flex-end; gap: 0.5rem;">
+          <button type="button" class="btn btn-secondary" style="padding: 0.4rem 1rem;" onclick="closeModal('projects')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="padding: 0.4rem 1rem;">Save Project</button>
         </div>
       </form>
     </div>
@@ -3657,7 +3834,7 @@
               <input type="text" id="client-phone" class="form-control" required placeholder="+33 6 52 00 11 00">
             </div>
             <div class="form-group">
-              <label for="client-balance">Outstanding Balance (€)</label>
+              <label for="client-balance">Outstanding Balance (₹)</label>
               <input type="number" id="client-balance" class="form-control" required placeholder="12500">
             </div>
             <div class="form-group full-width">
@@ -3712,7 +3889,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="material-price">Unit Purchase Price (€)</label>
+              <label for="material-price">Unit Purchase Price (₹)</label>
               <input type="number" id="material-price" class="form-control" step="0.01" required placeholder="45.00">
             </div>
             <div class="form-group">
@@ -3781,11 +3958,11 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="finance-amount">Gross Amount (€)</label>
+              <label for="finance-amount">Gross Amount (₹)</label>
               <input type="number" id="finance-amount" class="form-control" step="0.01" required placeholder="8500.00" oninput="calculateNetFinance()">
             </div>
             <div class="form-group">
-              <label for="finance-gst">GST Value (18% - €)</label>
+              <label for="finance-gst">GST Value (18% - ₹)</label>
               <input type="number" id="finance-gst" class="form-control" step="0.01" required placeholder="1530.00" readonly>
             </div>
             <div class="form-group full-width">
@@ -3829,11 +4006,11 @@
               <input type="date" id="invoice-date" class="form-control" required>
             </div>
             <div class="form-group">
-              <label for="invoice-amount">Base Amount (€)</label>
+              <label for="invoice-amount">Base Amount (₹)</label>
               <input type="number" id="invoice-amount" class="form-control" step="0.01" required placeholder="14500.00" oninput="calculateNetInvoice()">
             </div>
             <div class="form-group">
-              <label for="invoice-gst">GST Value (18% - €)</label>
+              <label for="invoice-gst">GST Value (18% - ₹)</label>
               <input type="number" id="invoice-gst" class="form-control" step="0.01" required placeholder="2610.00" readonly>
             </div>
             <div class="form-group">
@@ -3890,7 +4067,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="lead-budget">Proposed Budget (€)</label>
+              <label for="lead-budget">Proposed Budget (₹)</label>
               <input type="number" id="lead-budget" class="form-control" required placeholder="80000">
             </div>
             <div class="form-group">
@@ -3959,7 +4136,7 @@
               <input type="text" id="team-projects" class="form-control" required placeholder="Maison Tolbiac, Villa Solare">
             </div>
             <div class="form-group">
-              <label for="team-salary">Monthly Salary (€)</label>
+              <label for="team-salary">Monthly Salary (₹)</label>
               <input type="number" id="team-salary" class="form-control" required placeholder="3200">
             </div>
             <div class="form-group">
@@ -3988,14 +4165,19 @@
       </div>
       <form id="form-documents" onsubmit="handleFormSubmit(event, 'documents')">
         <input type="hidden" id="form-id-documents">
+        <input type="hidden" id="doc-dateModified">
         <div class="modal-body">
           <div class="form-grid">
             <div class="form-group full-width">
+              <label for="doc-file-input" style="font-weight: 500; color: var(--accent);">Select Document File</label>
+              <input type="file" id="doc-file-input" class="form-control" onchange="autoDetectFileDetails(this)" style="padding-top: 0.35rem; border: 1px dashed var(--accent);">
+            </div>
+            <div class="form-group full-width">
               <label for="doc-filename">Document File Name</label>
-              <input type="text" id="doc-filename" class="form-control" required placeholder="Tolbiac Floorplan V2.pdf">
+              <input type="text" id="doc-filename" class="form-control" required readonly placeholder="File name will be auto-extracted...">
             </div>
             <div class="form-group">
-              <label for="doc-category">Document category</label>
+              <label for="doc-category">Document Category</label>
               <select id="doc-category" class="select-control" style="width: 100%;">
                 <option value="Floor Plans">Floor Plans</option>
                 <option value="3D Designs">3D Designs</option>
@@ -4006,8 +4188,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="doc-size">Simulated File Size</label>
-              <input type="text" id="doc-size" class="form-control" required placeholder="4.2 MB">
+              <label for="doc-size">File Size</label>
+              <input type="text" id="doc-size" class="form-control" required readonly placeholder="File size will be auto-extracted...">
             </div>
           </div>
         </div>
@@ -4120,9 +4302,9 @@
             <tbody>
               <tr>
                 <td>Comprehensive Interior Remodel - Milestones Milestone Billing Cycle 1</td>
-                <td style="text-align: right;" id="p-inv-base">€25,000.00</td>
-                <td style="text-align: right;" id="p-inv-gst">€4,500.00</td>
-                <td style="text-align: right;" id="p-inv-total">€29,500.00</td>
+                <td style="text-align: right;" id="p-inv-base">₹25,000.00</td>
+                <td style="text-align: right;" id="p-inv-gst">₹4,500.00</td>
+                <td style="text-align: right;" id="p-inv-total">₹29,500.00</td>
               </tr>
             </tbody>
           </table>
@@ -4130,19 +4312,19 @@
           <div class="inv-summary">
             <div class="inv-summary-row">
               <span>Subtotal:</span>
-              <span id="p-inv-sub">€25,000.00</span>
+              <span id="p-inv-sub">₹25,000.00</span>
             </div>
             <div class="inv-summary-row">
               <span>GST Total (18%):</span>
-              <span id="p-inv-gst-sum">€4,500.00</span>
+              <span id="p-inv-gst-sum">₹4,500.00</span>
             </div>
             <div class="inv-summary-row inv-total">
               <span>Grand Billed Total:</span>
-              <span id="p-inv-grand">€29,500.00</span>
+              <span id="p-inv-grand">₹29,500.00</span>
             </div>
           </div>
           
-          <div style="margin-top: 4rem; border-top: 1px solid #eee; padding-top: 1rem; font-size: 0.75rem; color: #888; text-align: center;">
+          <div style="margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 0.75rem; font-size: 0.75rem; color: #888; text-align: center;">
             Thank you for collaborating with Forme Studio. Settlement term: 15 business days from receipt.
           </div>
         </div>
@@ -4349,6 +4531,7 @@
       // Render sub-marketing modules
       renderWhatsAppModule();
       renderEmailModule();
+      renderBIDashboard();
     }
 
     // ── DASHBOARD CALCULATIONS
@@ -4357,23 +4540,23 @@
       const totalRev = store.finance
         .filter(t => t.type === 'INCOME')
         .reduce((sum, curr) => sum + curr.gross, 0);
-      document.getElementById('kpi-revenue').textContent = `€${totalRev.toLocaleString()}`;
+      document.getElementById('kpi-revenue').textContent = `₹${totalRev.toLocaleString()}`;
 
       // 2. Expenses Sum
       const totalExp = store.finance
         .filter(t => t.type === 'EXPENSE')
         .reduce((sum, curr) => sum + curr.gross, 0);
-      document.getElementById('kpi-expenses').textContent = `€${totalExp.toLocaleString()}`;
+      document.getElementById('kpi-expenses').textContent = `₹${totalExp.toLocaleString()}`;
 
       // 3. Profit Calculation
       const profit = totalRev - totalExp;
-      document.getElementById('kpi-profit').textContent = `€${profit.toLocaleString()}`;
+      document.getElementById('kpi-profit').textContent = `₹${profit.toLocaleString()}`;
       
       // 4. Pending payments
       const pendingPay = store.invoices
         .filter(inv => inv.status === 'PENDING' || inv.status === 'OVERDUE')
         .reduce((sum, curr) => sum + curr.amount + curr.gst, 0);
-      document.getElementById('kpi-pending-payments').textContent = `€${pendingPay.toLocaleString()}`;
+      document.getElementById('kpi-pending-payments').textContent = `₹${pendingPay.toLocaleString()}`;
 
       // 5. Active Projects count
       const activeProj = store.projects.filter(p => p.status === 'ACTIVE').length;
@@ -4437,6 +4620,9 @@
 
       updatePageInfo(moduleName, dataList.length, startIndex + 1, Math.min(startIndex + itemsPerPage, dataList.length));
       renderPaginationControls(moduleName, dataList.length);
+      if (moduleName === 'finance') {
+        renderFinanceCharts(dataList);
+      }
     }
 
     function updatePageInfo(moduleName, total, start, end) {
@@ -4511,10 +4697,10 @@
                 <span>${item.progress}%</span>
               </div>
             </td>
-            <td>€${item.budget.toLocaleString()}</td>
-            <td>€${item.estcost.toLocaleString()}</td>
-            <td>€${item.actcost.toLocaleString()}</td>
-            <td><span style="font-weight:600; color:${(item.budget - item.actcost) >= 0 ? '#27ae60' : '#c0392b'}">€${(item.budget - item.actcost).toLocaleString()}</span></td>
+            <td>₹${item.budget.toLocaleString()}</td>
+            <td>₹${item.estcost.toLocaleString()}</td>
+            <td>₹${item.actcost.toLocaleString()}</td>
+            <td><span style="font-weight:600; color:${(item.budget - item.actcost) >= 0 ? '#27ae60' : '#c0392b'}">₹${(item.budget - item.actcost).toLocaleString()}</span></td>
             <td>${item.enddate}</td>
             <td style="text-align: right;">
               <button class="btn-icon-only" onclick="openEditModal('projects', ${item.id})"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
@@ -4528,8 +4714,8 @@
             <td>${item.email}</td>
             <td>${item.phone}</td>
             <td>${item.address}</td>
-            <td><span style="font-weight:600; color:${item.balance > 0 ? '#d35400' : 'inherit'}">€${item.balance.toLocaleString()}</span></td>
-            <td>€${item.totalvolume.toLocaleString()}</td>
+            <td><span style="font-weight:600; color:${item.balance > 0 ? '#d35400' : 'inherit'}">₹${item.balance.toLocaleString()}</span></td>
+            <td>₹${item.totalvolume.toLocaleString()}</td>
             <td style="text-align: right;">
               <button class="btn-icon-only" onclick="openEditModal('clients', ${item.id})"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
               <button class="btn-icon-only btn-icon-danger" onclick="deleteItem('clients', ${item.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -4543,12 +4729,12 @@
             <td><strong>${item.name}</strong></td>
             <td>${item.supplier}</td>
             <td>${item.category}</td>
-            <td>€${item.price.toFixed(2)}</td>
+            <td>₹${item.price.toFixed(2)}</td>
             <td>${item.qpurchased}</td>
             <td>${item.qused}</td>
             <td><span style="font-weight:600; color:${isLow ? '#c0392b' : 'inherit'}">${remaining}</span> ${isLow ? '<span class="status-badge badge-danger" style="font-size:0.55rem; padding:0.1rem 0.25rem;">LOW</span>' : ''}</td>
             <td>${item.lowlevel}</td>
-            <td><small>${item.project}</small><br><strong>€${(item.qused * item.price).toLocaleString()}</strong></td>
+            <td><small>${item.project}</small><br><strong>₹${(item.qused * item.price).toLocaleString()}</strong></td>
             <td style="text-align: right;">
               <button class="btn-icon-only" onclick="openEditModal('materials', ${item.id})"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
               <button class="btn-icon-only btn-icon-danger" onclick="deleteItem('materials', ${item.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -4561,9 +4747,9 @@
             <td>${item.date}</td>
             <td><span class="status-badge ${item.type === 'INCOME' ? 'badge-success' : 'badge-danger'}">${item.type}</span></td>
             <td>${item.category}</td>
-            <td>€${(item.gst || 0).toLocaleString()}</td>
-            <td><strong>€${item.gross.toLocaleString()}</strong></td>
-            <td>€${(item.gross - (item.gst || 0)).toLocaleString()}</td>
+            <td>₹${(item.gst || 0).toLocaleString()}</td>
+            <td><strong>₹${item.gross.toLocaleString()}</strong></td>
+            <td>₹${(item.gross - (item.gst || 0)).toLocaleString()}</td>
             <td><small>${item.desc}</small></td>
             <td style="text-align: right;">
               <button class="btn-icon-only btn-icon-danger" onclick="deleteItem('finance', ${item.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -4576,9 +4762,9 @@
             <td><code>${item.no}</code></td>
             <td>${item.client}</td>
             <td>${item.date}</td>
-            <td>€${item.amount.toLocaleString()}</td>
-            <td>€${item.gst.toLocaleString()}</td>
-            <td><strong>€${totalBilled.toLocaleString()}</strong></td>
+            <td>₹${item.amount.toLocaleString()}</td>
+            <td>₹${item.gst.toLocaleString()}</td>
+            <td><strong>₹${totalBilled.toLocaleString()}</strong></td>
             <td><span class="status-badge ${item.status === 'PAID' ? 'badge-success' : item.status === 'PENDING' ? 'badge-warning' : 'badge-danger'}">${item.status}</span></td>
             <td style="text-align: right; display: flex; gap:0.25rem; justify-content:flex-end;">
               <button class="btn btn-secondary btn-small" onclick="previewInvoice(${item.id})">Preview / Print</button>
@@ -4591,7 +4777,7 @@
             <td><strong>${item.name}</strong><br><small>${item.email} | ${item.phone}</small></td>
             <td><span class="status-badge badge-info">${item.source}</span></td>
             <td>${item.type}</td>
-            <td>€${item.budget.toLocaleString()}</td>
+            <td>₹${item.budget.toLocaleString()}</td>
             <td>2026-07-14</td>
             <td><span class="status-badge ${item.status === 'WON' ? 'badge-success' : item.status === 'LOST' ? 'badge-danger' : 'badge-warning'}">${item.status}</span></td>
             <td><code>${item.followup}</code></td>
@@ -4606,7 +4792,7 @@
             <td><strong>${item.name}</strong></td>
             <td><span class="status-badge badge-info">${item.role}</span></td>
             <td><small>${item.projects}</small></td>
-            <td>€${item.salary.toLocaleString()}</td>
+            <td>₹${item.salary.toLocaleString()}</td>
             <td>${item.attendance}%</td>
             <td style="text-align: right;">
               <button class="btn-icon-only" onclick="openEditModal('team', ${item.id})"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
@@ -4626,27 +4812,129 @@
     }
 
     // ── RENDER FILES & DOCUMENTS
+    // ── RENDER FILES & DOCUMENTS
+    let currentDocSortKey = '';
+    let currentDocSortAsc = true;
+
+    function getDocType(name) {
+      if (!name) return 'Unknown File';
+      const ext = name.split('.').pop().toLowerCase();
+      if (ext === 'pdf') return 'PDF Document';
+      if (ext === 'obj' || ext === '3ds' || ext === 'fbx') return '3D Design File';
+      if (ext === 'dwg' || ext === 'dxf') return 'CAD Drawing';
+      if (ext === 'jpg' || ext === 'png' || ext === 'jpeg') return 'Image Asset';
+      if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') return 'Spreadsheet';
+      return ext.toUpperCase() + ' File';
+    }
+
+    function sortDocs(key) {
+      if (currentDocSortKey === key) {
+        currentDocSortAsc = !currentDocSortAsc;
+      } else {
+        currentDocSortKey = key;
+        currentDocSortAsc = true;
+      }
+      
+      // Update sort icons
+      ['name', 'type', 'category', 'size', 'date'].forEach(k => {
+        const el = document.getElementById(`sort-icon-doc-${k}`);
+        if (el) {
+          if (k === key) el.textContent = currentDocSortAsc ? '↑' : '↓';
+          else el.textContent = '⇅';
+        }
+      });
+      filterTable('documents');
+    }
+
+    function autoDetectFileDetails(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      
+      document.getElementById('doc-filename').value = file.name;
+      
+      let sizeStr = '';
+      if (file.size < 1024 * 1024) {
+        sizeStr = (file.size / 1024).toFixed(0) + ' KB';
+      } else {
+        sizeStr = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+      }
+      document.getElementById('doc-size').value = sizeStr;
+      
+      const lastModDate = file.lastModified ? new Date(file.lastModified) : new Date();
+      const yyyy = lastModDate.getFullYear();
+      const mm = String(lastModDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(lastModDate.getDate()).padStart(2, '0');
+      document.getElementById('doc-dateModified').value = `${yyyy}-${mm}-${dd}`;
+    }
+
     function renderDocuments(docs) {
       const container = document.getElementById('tbody-documents');
       if (!container) return;
 
+      // Apply sorting if key is active
+      if (currentDocSortKey) {
+        docs.sort((a, b) => {
+          let valA = '', valB = '';
+          if (currentDocSortKey === 'name') { valA = a.name || ''; valB = b.name || ''; }
+          else if (currentDocSortKey === 'type') { valA = getDocType(a.name); valB = getDocType(b.name); }
+          else if (currentDocSortKey === 'category') { valA = a.category || ''; valB = b.category || ''; }
+          else if (currentDocSortKey === 'size') {
+            const parseSize = (s) => {
+              if (!s) return 0;
+              const num = parseFloat(s);
+              if (s.toLowerCase().includes('kb')) return num * 1024;
+              if (s.toLowerCase().includes('mb')) return num * 1024 * 1024;
+              return num;
+            };
+            valA = parseSize(a.size); valB = parseSize(b.size);
+          }
+          else if (currentDocSortKey === 'date') {
+            valA = a.dateModified || '2026-07-25';
+            valB = b.dateModified || '2026-07-25';
+          }
+          
+          if (typeof valA === 'string') {
+            return currentDocSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+          } else {
+            return currentDocSortAsc ? valA - valB : valB - valA;
+          }
+        });
+      }
+
       container.innerHTML = '';
+      if (docs.length === 0) {
+        container.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text2); padding: 2rem;">No documents match the search criteria.</td></tr>`;
+        return;
+      }
+
       docs.forEach(doc => {
-        const card = document.createElement('div');
-        card.className = 'doc-card';
-        card.innerHTML = `
-          <div class="doc-icon">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <span class="doc-name">${doc.name}</span>
-          <span class="doc-meta">${doc.category} | ${doc.size}</span>
-          <div class="doc-actions">
-            <button class="btn btn-secondary btn-small" onclick="window.alert('Simulating download of: ${doc.name}')">Get</button>
-            <button class="btn-icon-only btn-icon-danger" onclick="deleteItem('documents', ${doc.id})"><svg viewBox="0 0 24 24" style="width:12px; height:12px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
-          </div>
+        const tr = document.createElement('tr');
+        const fileType = getDocType(doc.name);
+        const dateModified = doc.dateModified || '2026-07-25';
+        tr.innerHTML = `
+          <td>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="file" style="width: 14px; height: 14px; color: var(--accent);"></i>
+              <span style="font-weight: 500;">${doc.name}</span>
+            </div>
+          </td>
+          <td>${fileType}</td>
+          <td><span class="status-badge" style="background: rgba(0,0,0,0.04); color: var(--text); border: 1px solid var(--border); font-size: 0.72rem;">${doc.category}</span></td>
+          <td>${doc.size}</td>
+          <td>${dateModified}</td>
+          <td style="text-align: right;">
+            <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
+              <button class="btn btn-secondary btn-small" onclick="window.alert('Simulating download of: ${doc.name}')" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;">Download</button>
+              <button class="btn-icon-only btn-icon-danger" onclick="deleteItem('documents', ${doc.id})" style="padding: 0.25rem;"><i data-lucide="trash" style="width: 12px; height: 12px;"></i></button>
+            </div>
+          </td>
         `;
-        container.appendChild(card);
+        container.appendChild(tr);
       });
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
     }
 
     // ── FILTER & SEARCH CONTROLLER
@@ -4724,6 +5012,13 @@
       
       document.getElementById(`form-${module}`).reset();
       document.getElementById(`form-id-${module}`).value = '';
+      if (module === 'projects') {
+        const progVal = document.getElementById('project-progress-val');
+        if (progVal) progVal.textContent = '0%';
+      }
+      if (module === 'documents') {
+        document.getElementById('doc-dateModified').value = '';
+      }
       
       const title = document.getElementById(`modal-title-${module}`);
       if (title) title.textContent = `Log New ${module.charAt(0).toUpperCase() + module.slice(1)}`;
@@ -4762,6 +5057,8 @@
           document.getElementById('project-client').value = item.client;
           document.getElementById('project-status').value = item.status;
           document.getElementById('project-progress').value = item.progress;
+          const progVal = document.getElementById('project-progress-val');
+          if (progVal) progVal.textContent = item.progress + '%';
           document.getElementById('project-budget').value = item.budget;
           document.getElementById('project-estcost').value = item.estcost;
           document.getElementById('project-actcost').value = item.actcost;
@@ -4924,7 +5221,8 @@
       else if (module === 'documents') {
         dataObject.name = document.getElementById('doc-filename').value.trim();
         dataObject.category = document.getElementById('doc-category').value;
-        dataObject.size = document.getElementById('doc-size').value.trim() || '2.5 MB';
+        dataObject.size = document.getElementById('doc-size').value.trim() || '0 KB';
+        dataObject.dateModified = document.getElementById('doc-dateModified').value || new Date().toISOString().split('T')[0];
       }
       else if (module === 'marketing') {
         dataObject.name = document.getElementById('marketing-name').value.trim();
@@ -5002,14 +5300,14 @@
       document.getElementById('p-inv-date').textContent = invoice.date;
       document.getElementById('p-inv-client').textContent = invoice.client;
       
-      document.getElementById('p-inv-base').textContent = `€${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-gst').textContent = `€${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-base').textContent = `₹${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-gst').textContent = `₹${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
       
       const total = invoice.amount + invoice.gst;
-      document.getElementById('p-inv-total').textContent = `€${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-sub').textContent = `€${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-gst-sum').textContent = `€${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-grand').textContent = `€${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-total').textContent = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-sub').textContent = `₹${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-gst-sum').textContent = `₹${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById('p-inv-grand').textContent = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
 
       const modal = document.getElementById('modal-invoice-preview');
       modal.classList.add('open');
@@ -5539,8 +5837,8 @@
         media: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80"
       },
       referral: {
-        wa: "Hi {{name}}, recommend Forme Studio to a friend and both of you will receive €500 design credit upon contract signing! Share details: https://formestudio.com/referral",
-        em: "<h2>Share the Forme Studio Experience</h2><p>Dear {{name}},</p><p>Refer our design services to a colleague or friend. Upon signing, you both receive a €500 credit toward styling.</p>",
+        wa: "Hi {{name}}, recommend Forme Studio to a friend and both of you will receive ₹500 design credit upon contract signing! Share details: https://formestudio.com/referral",
+        em: "<h2>Share the Forme Studio Experience</h2><p>Dear {{name}},</p><p>Refer our design services to a colleague or friend. Upon signing, you both receive a ₹500 credit toward styling.</p>",
         media: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"
       }
     };
@@ -5725,8 +6023,8 @@
         const netCost = (checkedCount * 0.015) + attachmentTax;
         
         if (sumContacts) sumContacts.textContent = `${checkedCount} contacts`;
-        if (sumAttachment) sumAttachment.textContent = `€${attachmentTax.toFixed(3)}`;
-        if (sumCost) sumCost.textContent = `€${netCost.toFixed(2)}`;
+        if (sumAttachment) sumAttachment.textContent = `₹${attachmentTax.toFixed(3)}`;
+        if (sumCost) sumCost.textContent = `₹${netCost.toFixed(2)}`;
       } else {
         const sumContacts = document.getElementById('em-sum-contacts');
         if (sumContacts) sumContacts.textContent = `${checkedCount} subscribers`;
@@ -5902,10 +6200,918 @@
       }
     }
 
+    // ── BUSINESS INTELLIGENCE DASHBOARD RENDERING SYSTEM
+    let currentBIFilter = 'month';
+    let customBIStart = '';
+    let customBIEnd = '';
+
+    function isDateInPeriod(dateStr, period) {
+      if (!dateStr) return false;
+      const date = new Date(dateStr);
+      const now = new Date("2026-07-26");
+      
+      const getStartOfWeek = (d) => {
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(d.setDate(diff));
+      };
+
+      switch (period) {
+        case 'week': {
+          const startOfWeek = getStartOfWeek(new Date(now));
+          startOfWeek.setHours(0,0,0,0);
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(endOfWeek.getDate() + 7);
+          return date >= startOfWeek && date < endOfWeek;
+        }
+        case 'month': {
+          return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+        }
+        case 'last_month': {
+          const lm = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+          return date.getFullYear() === lm.getFullYear() && date.getMonth() === lm.getMonth();
+        }
+        case 'quarter': {
+          const currentQuarter = Math.floor(now.getMonth() / 3);
+          const itemQuarter = Math.floor(date.getMonth() / 3);
+          return date.getFullYear() === now.getFullYear() && currentQuarter === itemQuarter;
+        }
+        case 'year': {
+          return date.getFullYear() === now.getFullYear();
+        }
+        default:
+          return true;
+      }
+    }
+
+    function setBIFilter(btn, filterType) {
+      currentBIFilter = filterType;
+      const parent = btn.parentNode;
+      parent.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (filterType === 'custom') {
+        const start = prompt("Enter Start Date (YYYY-MM-DD):", "2026-06-01");
+        const end = prompt("Enter End Date (YYYY-MM-DD):", "2026-07-26");
+        if (start && end) {
+          customBIStart = start;
+          customBIEnd = end;
+        } else {
+          currentBIFilter = 'year';
+          const yrBtn = parent.querySelector('[onclick*="year"]');
+          if (yrBtn) {
+            btn.classList.remove('active');
+            yrBtn.classList.add('active');
+          }
+        }
+      }
+      renderBIDashboard();
+    }
+
+    function renderBIDashboard() {
+      const store = getStore();
+      const formatLakhs = (val) => {
+        return '₹' + (val / 100000).toFixed(2) + 'L';
+      };
+
+      // Update Active Period Badge
+      const periodNames = {
+        'week': 'This Week',
+        'month': 'This Month',
+        'last_month': 'Last Month',
+        'quarter': 'Quarterly',
+        'year': 'Yearly',
+        'custom': `Custom Range: ${customBIStart} to ${customBIEnd}`
+      };
+      const activeBadge = document.getElementById('bi-active-period-badge');
+      if (activeBadge) {
+        activeBadge.textContent = periodNames[currentBIFilter] || 'This Month';
+      }
+
+      // Filter data lists based on current selected filter
+      const filteredFinance = store.finance.filter(t => {
+        if (currentBIFilter === 'custom') {
+          return t.date >= customBIStart && t.date <= customBIEnd;
+        }
+        return isDateInPeriod(t.date, currentBIFilter);
+      });
+
+      const filteredInvoices = store.invoices.filter(inv => {
+        if (currentBIFilter === 'custom') {
+          return inv.date >= customBIStart && inv.date <= customBIEnd;
+        }
+        return isDateInPeriod(inv.date, currentBIFilter);
+      });
+
+      const filteredLeads = store.leads.filter(l => {
+        if (currentBIFilter === 'custom') {
+          return l.followup >= customBIStart && l.followup <= customBIEnd;
+        }
+        return isDateInPeriod(l.followup, currentBIFilter);
+      });
+
+      const filteredProjects = store.projects.filter(p => {
+        if (currentBIFilter === 'custom') {
+          return p.start >= customBIStart && p.start <= customBIEnd;
+        }
+        // Projects have timeline dates. If start date falls within period or is empty, keep it
+        return !p.start || isDateInPeriod(p.start, currentBIFilter);
+      });
+
+      // Calculate Metrics
+      const totalRev = filteredFinance.filter(t => t.type === 'INCOME').reduce((s, c) => s + c.gross, 0);
+      const totalExp = filteredFinance.filter(t => t.type === 'EXPENSE').reduce((s, c) => s + c.gross, 0);
+      const totalProfit = totalRev - totalExp;
+      const netMargin = totalRev ? ((totalProfit / totalRev) * 100).toFixed(1) : '0.0';
+
+      const pendingAmt = filteredInvoices.filter(inv => inv.status === 'PENDING' || inv.status === 'OVERDUE').reduce((s, c) => s + c.amount, 0);
+      const overdueCount = filteredInvoices.filter(inv => inv.status === 'OVERDUE').length;
+
+      const completedProjectsCount = filteredProjects.filter(p => p.status === 'Completed' || p.status === 'COMPLETED').length;
+      const activeProjectsCount = filteredProjects.filter(p => p.status !== 'Completed' && p.status !== 'COMPLETED').length;
+
+      const totalLeadsCount = filteredLeads.length;
+      const convertedLeadsCount = filteredLeads.filter(l => l.status === 'WON' || l.status === 'CONVERTED' || l.status === 'Converted').length;
+      const conversionRate = totalLeadsCount ? ((convertedLeadsCount / totalLeadsCount) * 100).toFixed(1) : '0.0';
+
+      // 1. Render charts workspace inside #bi-charts-container
+      let chartsHtml = '';
+      
+      // Part 1: Row 1 - Revenue Trend & Income vs Expense
+      chartsHtml += `
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="dollar-sign" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Revenue Trend & Cash Flow</h3>
+            <div class="chart-container" style="height: auto; min-height: 220px;">
+              <svg viewBox="0 0 500 220" class="svg-chart" style="width: 100%; height: auto;">
+                <defs>
+                  <linearGradient id="biRevGrad2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35" />
+                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="80" x2="480" y2="80" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="130" x2="480" y2="130" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="180" x2="480" y2="180" stroke="rgba(0,0,0,0.03)" />
+      `;
+
+      if (filteredFinance.length === 0) {
+        chartsHtml += `<text x="250" y="110" text-anchor="middle" fill="var(--text2)" font-size="10">No finance data logged in this range</text>`;
+      } else {
+        const sorted = [...filteredFinance].sort((a,b) => a.date.localeCompare(b.date));
+        let pathPoints = [];
+        let runningSum = 0;
+        sorted.forEach((t, i) => {
+          if (t.type === 'INCOME') runningSum += t.gross;
+          else runningSum -= t.gross;
+          pathPoints.push({ x: 40 + (i / Math.max(1, sorted.length - 1)) * 440, val: runningSum, date: t.date });
+        });
+
+        const maxVal = Math.max(...pathPoints.map(p => Math.abs(p.val))) || 100000;
+        const pointsStr = pathPoints.map(p => {
+          const y = 180 - (Math.max(0, p.val) / maxVal) * 150;
+          return `${p.x},${y}`;
+        }).join(' ');
+
+        const areaPointsStr = pointsStr ? `40,180 ${pointsStr} 480,180` : '';
+        if (areaPointsStr) {
+          chartsHtml += `<polygon points="${areaPointsStr}" fill="url(#biRevGrad2)" />`;
+        }
+        if (pointsStr) {
+          chartsHtml += `<polyline points="${pointsStr}" fill="none" stroke="var(--accent)" stroke-width="2.5" />`;
+        }
+        pathPoints.forEach(p => {
+          const y = 180 - (Math.max(0, p.val) / maxVal) * 150;
+          chartsHtml += `<circle cx="${p.x}" cy="${y}" r="4.5" fill="var(--accent)" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Balance: ${formatLakhs(p.val)}<br>${p.date}')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />`;
+        });
+      }
+
+      chartsHtml += `
+                <text x="35" y="183" fill="var(--text2)" font-size="8" text-anchor="end">₹0</text>
+                <text x="35" y="108" fill="var(--text2)" font-size="8" text-anchor="end">MID</text>
+                <text x="35" y="33" fill="var(--text2)" font-size="8" text-anchor="end">MAX</text>
+              </svg>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.75rem; font-size: 0.8rem;">
+              <div>GST Collected: <strong>${formatLakhs(filteredFinance.filter(t => t.type === 'INCOME').reduce((s,c) => s + (c.gst || c.gross * 0.18), 0))}</strong></div>
+              <div>GST Paid: <strong>${formatLakhs(filteredFinance.filter(t => t.type === 'EXPENSE').reduce((s,c) => s + (c.gst || c.gross * 0.18), 0))}</strong></div>
+            </div>
+          </div>
+      `;
+
+      // Income vs Expense Bar Chart
+      chartsHtml += `
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="bar-chart-2" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Income vs Expense</h3>
+            <div class="chart-container" style="height: auto; min-height: 220px;">
+              <svg viewBox="0 0 500 220" class="svg-chart" style="width: 100%; height: auto;">
+                <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="80" x2="480" y2="80" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="130" x2="480" y2="130" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="180" x2="480" y2="180" stroke="rgba(0,0,0,0.03)" />
+      `;
+
+      const months = ['2026-05', '2026-06', '2026-07'];
+      const monthlyAgg = {};
+      months.forEach(m => monthlyAgg[m] = { income: 0, expense: 0 });
+      store.finance.forEach(t => {
+        const m = t.date.slice(0, 7);
+        if (monthlyAgg[m]) {
+          if (t.type === 'INCOME') monthlyAgg[m].income += t.gross;
+          else monthlyAgg[m].expense += t.gross;
+        }
+      });
+
+      months.forEach((m, idx) => {
+        const x = 90 + idx * 130;
+        const incHeight = Math.min(150, (monthlyAgg[m].income / 1000000) * 150);
+        const expHeight = Math.min(150, (monthlyAgg[m].expense / 1000000) * 150);
+        chartsHtml += `
+          <rect x="${x}" y="${180 - incHeight}" width="18" height="${incHeight}" fill="var(--accent)" rx="2" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Income: ${formatLakhs(monthlyAgg[m].income)}')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+          <rect x="${x + 22}" y="${180 - expHeight}" width="18" height="${expHeight}" fill="#c0392b" rx="2" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Expense: ${formatLakhs(monthlyAgg[m].expense)}')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+          <text x="${x + 20}" y="200" fill="var(--text2)" font-size="9" text-anchor="middle">${m}</text>
+        `;
+      });
+
+      chartsHtml += `
+                <text x="35" y="183" fill="var(--text2)" font-size="8" text-anchor="end">₹0</text>
+                <text x="35" y="108" fill="var(--text2)" font-size="8" text-anchor="end">₹5L</text>
+                <text x="35" y="33" fill="var(--text2)" font-size="8" text-anchor="end">₹10L</text>
+              </svg>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.75rem; margin-top: 0.5rem;">
+              <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 10px; height: 10px; background: var(--accent); border-radius: 2px;"></span> Income</span>
+              <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 10px; height: 10px; background: #c0392b; border-radius: 2px;"></span> Expense</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Part 2: Row 2 - Project Benchmarks & Material Inventory
+      chartsHtml += `
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="layers" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Project Financial Benchmarks</h3>
+            <div class="chart-container" style="display: flex; flex-direction: column; gap: 1.25rem; justify-content: center;">
+      `;
+
+      if (filteredProjects.length === 0) {
+        chartsHtml += `<div style="color: var(--text2); font-size: 0.85rem; text-align: center;">No project data logged in this range</div>`;
+      } else {
+        filteredProjects.slice(0, 3).forEach(p => {
+          const totalInvoices = store.invoices.filter(inv => inv.client === p.client && inv.status === 'PAID').reduce((sum, inv) => sum + inv.amount, 0);
+          const pct = p.budget ? Math.min(100, (totalInvoices / p.budget) * 100).toFixed(0) : 0;
+          chartsHtml += `
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                <span>${p.name} (${p.client})</span>
+                <span>Budget: ${formatLakhs(p.budget)} | Recd: <strong>${formatLakhs(totalInvoices)} (${pct}%)</strong></span>
+              </div>
+              <div style="width: 100%; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; cursor:pointer;" onmouseover="showBITooltip(event, 'Received: ${formatLakhs(totalInvoices)} of ${formatLakhs(p.budget)}')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()">
+                <div style="width: ${pct}%; height: 100%; background: var(--accent);"></div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      chartsHtml += `
+            </div>
+          </div>
+          
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="package" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Material Inventory Valuation</h3>
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-around; height: 100%; flex-wrap: wrap;">
+              <svg viewBox="0 0 160 160" style="width: 120px; height: 120px;">
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--bg2)" stroke-width="16" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="190 155" stroke-dashoffset="0" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Marbles & Stone: 55%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#2980b9" stroke-width="16" stroke-dasharray="100 245" stroke-dashoffset="-190" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Hardwood: 29%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#27ae60" stroke-width="16" stroke-dasharray="55 290" stroke-dashoffset="-290" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Fittings: 16%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+              </svg>
+              <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem;">
+                <div><span style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%; display: inline-block;"></span> Marbles: <strong>55%</strong></div>
+                <div><span style="width: 10px; height: 10px; background: #2980b9; border-radius: 50%; display: inline-block;"></span> Hardwood: <strong>29%</strong></div>
+                <div><span style="width: 10px; height: 10px; background: #27ae60; border-radius: 50%; display: inline-block;"></span> Fittings: <strong>16%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Part 3: Row 3 - Client Locations & Acquisition Channels
+      chartsHtml += `
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="users" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Client Location Base</h3>
+            <div class="chart-container" style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                  <span>Mumbai Metropolis</span>
+                  <strong>42% (₹34.6L)</strong>
+                </div>
+                <div style="width: 100%; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; cursor:pointer;" onmouseover="showBITooltip(event, 'Mumbai Metro: 42% share')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()">
+                  <div style="width: 42%; height: 100%; background: var(--accent);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                  <span>Delhi NCR</span>
+                  <strong>28% (₹23.0L)</strong>
+                </div>
+                <div style="width: 100%; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; cursor:pointer;" onmouseover="showBITooltip(event, 'Delhi NCR: 28% share')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()">
+                  <div style="width: 28%; height: 100%; background: var(--accent);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                  <span>Bengaluru Corridor</span>
+                  <strong>20% (₹16.5L)</strong>
+                </div>
+                <div style="width: 100%; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; cursor:pointer;" onmouseover="showBITooltip(event, 'Bengaluru Corridor: 20% share')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()">
+                  <div style="width: 20%; height: 100%; background: var(--accent);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="megaphone" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Lead Distribution by Channel</h3>
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-around; height: 100%; flex-wrap: wrap;">
+              <svg viewBox="0 0 160 160" style="width: 120px; height: 120px;">
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--bg2)" stroke-width="16" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="250 95" stroke-dashoffset="0" style="cursor:pointer;" onmouseover="showBITooltip(event, 'WhatsApp Broadcasts: 72%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#e67e22" stroke-width="16" stroke-dasharray="95 250" stroke-dashoffset="-250" style="cursor:pointer;" onmouseover="showBITooltip(event, 'Email Newsletters: 28%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()" />
+              </svg>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem;">
+                <div><span style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%; display: inline-block;"></span> WhatsApp: <strong>72%</strong></div>
+                <div><span style="width: 10px; height: 10px; background: #e67e22; border-radius: 50%; display: inline-block;"></span> Email Lists: <strong>28%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Part 4: Row 4 - Workloads & Heatmap
+      chartsHtml += `
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="briefcase" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Active Team Workloads</h3>
+            <div class="chart-container" style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+      `;
+
+      store.team.slice(0, 3).forEach(t => {
+        const count = t.projects ? t.projects.split(',').length : 0;
+        const capacity = (count / 4 * 100).toFixed(0);
+        chartsHtml += `
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+              <span>${t.name} (${t.role})</span>
+              <strong>${count} projects (${capacity}% Capacity)</strong>
+            </div>
+            <div style="width: 100%; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; cursor:pointer;" onmouseover="showBITooltip(event, '${t.name} capacity: ${capacity}%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()">
+              <div style="width: ${capacity}%; height: 100%; background: ${capacity > 90 ? '#c0392b' : 'var(--accent)'};"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      chartsHtml += `
+            </div>
+          </div>
+          
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="calendar" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Operations Attendance Activity</h3>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; width: 100%; max-width: 240px; margin: 0.5rem auto;">
+      `;
+
+      for (let i = 0; i < 28; i++) {
+        const op = i % 4 === 0 ? 0.15 : (i % 3 === 0 ? 0.45 : (i % 2 === 0 ? 0.7 : 0.95));
+        chartsHtml += `<div style="aspect-ratio: 1; background: var(--accent); border-radius: 3px; opacity: ${op}; cursor:pointer;" onmouseover="showBITooltip(event, 'Day ${i+1}: Activity level ${(op*100).toFixed(0)}%')" onmousemove="moveBITooltip(event)" onmouseout="hideBITooltip()"></div>`;
+      }
+
+      chartsHtml += `
+              </div>
+              <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.65rem; margin-top: 1rem; color: var(--text2);">
+                <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 8px; height: 8px; background: var(--accent); border-radius: 1px; opacity: 0.15;"></span> Low</span>
+                <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 8px; height: 8px; background: var(--accent); border-radius: 1px; opacity: 0.6;"></span> Mid</span>
+                <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 8px; height: 8px; background: var(--accent); border-radius: 1px; opacity: 0.95;"></span> High</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const chartsContainer = document.getElementById('bi-charts-container');
+      if (chartsContainer) chartsContainer.innerHTML = chartsHtml;
+
+      // 3. Populate export center
+      const exportsHtml = `
+        <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 0.5rem;"><i data-lucide="download" style="vertical-align: middle; margin-right: 0.5rem; width: 18px; height: 18px;"></i>Enterprise Export Center</h3>
+        <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;">Generate audited tax compliance statements, client registries, inventory ledgers, and marketing campaign performance reports in standard enterprise formats.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Revenue Report</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Revenue', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Revenue', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Revenue', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Profit Report</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Profit', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Profit', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Profit', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Client Directory</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Client', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Client', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Client', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Project Audits</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Project', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Project', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Project', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Inventory Usage</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Inventory', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Inventory', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Inventory', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Marketing Campaigns</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Marketing', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Marketing', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Marketing', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Finance Report</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Finance', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Finance', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Finance', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Invoice Receipts</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Invoices', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Invoices', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Invoices', 'CSV')">CSV</button>
+            </div>
+          </div>
+          
+          <div class="bi-export-item">
+            <span style="font-weight: 500; font-size: 0.82rem;">Employee Productivity</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Employee Productivity', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Employee Productivity', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Employee Productivity', 'CSV')">CSV</button>
+            </div>
+          </div>
+
+          <div class="bi-export-item" style="background: var(--accent-light); border: 1px solid var(--accent); grid-column: 1 / -1;">
+            <span style="font-weight: 600; font-size: 0.85rem; color: var(--accent);">Complete Business Audit & BI Report</span>
+            <div style="display: flex; gap: 0.25rem;">
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Complete Business Report', 'Excel')">EXCEL</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Complete Business Report', 'PDF')">PDF</button>
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.6rem; font-size: 0.65rem; min-width: 48px;" onclick="triggerReportDownload('Complete Business Report', 'CSV')">CSV</button>
+            </div>
+          </div>
+        </div>
+      `;
+      const exportContainer = document.getElementById('bi-export-center');
+      if (exportContainer) exportContainer.innerHTML = exportsHtml;
+
+      // 4. Populate AI Insights
+      const insightsHtml = `
+        <div class="charts-row" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="sparkles" style="color: var(--accent); vertical-align: middle; margin-right: 0.5rem; width: 16px; height: 16px;"></i>Executive AI Insights</h3>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; list-style: none; padding-left: 0;">
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-success-color); font-weight: bold;">✓</span>
+                <span><strong>Revenue Surge</strong>: Revenue increased by 18% this month, mainly due to the Emma Watson Penthouse project milestone completion.</span>
+              </li>
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-success-color); font-weight: bold;">✓</span>
+                <span><strong>Outreach Efficiency</strong>: Lead conversion improved by 12% following the integration of automated WhatsApp campaign template workflows.</span>
+              </li>
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-success-color); font-weight: bold;">✓</span>
+                <span><strong>Stream Profitability</strong>: Kitchen & villa renovation categories generated the highest net profit margins (averaging 48%).</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;"><i data-lucide="trending-up" style="color: var(--accent); vertical-align: middle; margin-right: 0.5rem; width: 16px; height: 16px;"></i>Operations Audit & Trends</h3>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; list-style: none; padding-left: 0;">
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-warning-color); font-weight: bold;">⚠</span>
+                <span><strong>Inventory Cost Pressure</strong>: Material expenses rose by 8% due to price increases in Carrara Marble slabs and Oak wood supplies.</span>
+              </li>
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-success-color); font-weight: bold;">✓</span>
+                <span><strong>Channel Performance</strong>: WhatsApp marketing campaign outreach outperformed Email newsletters by 2.4x in message read rates.</span>
+              </li>
+              <li style="font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.4;">
+                <span style="color: var(--status-info-color); font-weight: bold;">ℹ</span>
+                <span><strong>Team Productivity</strong>: Task completion timelines matched benchmarks at 96.4% efficiency, showing steady site workflow.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      `;
+      const insightsContainer = document.getElementById('bi-insights-container');
+      if (insightsContainer) insightsContainer.innerHTML = insightsHtml;
+      
+      // Initialize Lucide Icons for dynamic content
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    // ── FINANCIAL ANALYSIS & BI CHARTS GENERATION SYSTEM
+    function renderFinanceCharts(dataList) {
+      const container = document.getElementById('finance-analysis-charts');
+      if (!container) return;
+
+      // Group transactions by month
+      const monthlyData = {};
+      const categoryIncome = {};
+      const categoryExpense = {};
+      let totalGstCollected = 0;
+      let totalGstPaid = 0;
+
+      dataList.forEach(t => {
+        const month = t.date.slice(0, 7); // e.g. "2026-07"
+        if (!monthlyData[month]) {
+          monthlyData[month] = { income: 0, expense: 0, gst: 0 };
+        }
+        
+        // Calculate GST (18%)
+        const gstVal = t.gst || (t.gross * 0.18);
+
+        if (t.type === 'INCOME') {
+          monthlyData[month].income += t.gross;
+          monthlyData[month].gst += gstVal;
+          totalGstCollected += gstVal;
+          categoryIncome[t.category] = (categoryIncome[t.category] || 0) + t.gross;
+        } else {
+          monthlyData[month].expense += t.gross;
+          monthlyData[month].gst += gstVal;
+          totalGstPaid += gstVal;
+          categoryExpense[t.category] = (categoryExpense[t.category] || 0) + t.gross;
+        }
+      });
+
+      // Sort months chronologically
+      const sortedMonths = Object.keys(monthlyData).sort();
+      const monthsToShow = sortedMonths.slice(-6); // Last 6 months
+      if (monthsToShow.length === 0) {
+        monthsToShow.push('2026-07');
+        monthlyData['2026-07'] = { income: 840000, expense: 320000, gst: 151200 };
+      }
+      
+      // Calculations for outstanding payments
+      const store = getStore();
+      const pendingInvoicesAmt = store.invoices
+        .filter(inv => inv.status === 'PENDING' || inv.status === 'OVERDUE')
+        .reduce((sum, inv) => sum + inv.amount, 0);
+
+      const totalExp = Object.values(categoryExpense).reduce((a, b) => a + b, 0);
+
+      // Format Rupees in Lakhs helper
+      const formatLakhs = (val) => {
+        return '₹' + (val / 100000).toFixed(2) + 'L';
+      };
+
+      // Top Expense Categories sorting
+      const sortedExpenses = Object.entries(categoryExpense)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4);
+
+      container.innerHTML = `
+        <div class="page-header" style="margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+          <div>
+            <h2 class="page-title" style="font-family: var(--serif); font-size: 1.6rem; font-weight: 300;">Financial Analysis & Business Intelligence</h2>
+            <p class="page-subtitle" style="color: var(--text2); font-size: 0.85rem;">Interactive visual reports on cash reserves, GST ledger audits, and category cost distribution.</p>
+          </div>
+        </div>
+
+        <!-- Row 1: Cash Flow & Profit Trend -->
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="bar-chart-3" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Monthly Cash Flow (Revenue vs Expense)</h3>
+            <div style="height: 220px; position: relative;">
+              <svg viewBox="0 0 500 220" class="svg-chart" style="width: 100%; height: auto;">
+                <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="80" x2="480" y2="80" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="130" x2="480" y2="130" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="180" x2="480" y2="180" stroke="rgba(0,0,0,0.03)" />
+                
+                ${monthsToShow.map((m, idx) => {
+                  const x = 70 + idx * 70;
+                  const incHeight = (monthlyData[m].income / 1200000) * 150 || 0;
+                  const expHeight = (monthlyData[m].expense / 1200000) * 150 || 0;
+                  return `
+                    <rect x="${x}" y="${180 - incHeight}" width="14" height="${incHeight}" fill="var(--accent)" rx="2" />
+                    <rect x="${x + 18}" y="${180 - expHeight}" width="14" height="${expHeight}" fill="#c0392b" rx="2" />
+                    <text x="${x + 16}" y="200" fill="var(--text2)" font-size="9" text-anchor="middle">${m.slice(5)}</text>
+                  `;
+                }).join('')}
+                
+                <text x="35" y="183" fill="var(--text2)" font-size="8" text-anchor="end">₹0</text>
+                <text x="35" y="133" fill="var(--text2)" font-size="8" text-anchor="end">₹4L</text>
+                <text x="35" y="83" fill="var(--text2)" font-size="8" text-anchor="end">₹8L</text>
+                <text x="35" y="33" fill="var(--text2)" font-size="8" text-anchor="end">₹12L</text>
+              </svg>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.75rem; margin-top: 0.5rem;">
+              <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 10px; height: 10px; background: var(--accent); border-radius: 2px;"></span> Revenue</span>
+              <span style="display: flex; align-items: center; gap: 0.25rem;"><span style="width: 10px; height: 10px; background: #c0392b; border-radius: 2px;"></span> Expense</span>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="trending-up" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Profit Trend (Monthly Profit)</h3>
+            <div style="height: 220px; position: relative;">
+              <svg viewBox="0 0 500 220" class="svg-chart" style="width: 100%; height: auto;">
+                <defs>
+                  <linearGradient id="finProfitGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#27ae60" stop-opacity="0.25" />
+                    <stop offset="100%" stop-color="#27ae60" stop-opacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <line x1="40" y1="30" x2="480" y2="30" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="80" x2="480" y2="80" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="130" x2="480" y2="130" stroke="rgba(0,0,0,0.03)" />
+                <line x1="40" y1="180" x2="480" y2="180" stroke="rgba(0,0,0,0.03)" />
+                
+                ${(() => {
+                  let pathD = '';
+                  let areaD = 'M 75 180 ';
+                  const points = monthsToShow.map((m, idx) => {
+                    const x = 75 + idx * 70;
+                    const profit = monthlyData[m].income - monthlyData[m].expense;
+                    const y = 180 - (Math.max(0, profit) / 1000000) * 150;
+                    if (idx === 0) {
+                      pathD += `M ${x} ${y} `;
+                    } else {
+                      pathD += `L ${x} ${y} `;
+                    }
+                    areaD += `L ${x} ${y} `;
+                    return { x, y, val: profit, label: m.slice(5) };
+                  });
+                  if (points.length > 0) {
+                    areaD += `L ${points[points.length - 1].x} 180 Z`;
+                  }
+                  return `
+                    ${points.length > 0 ? `<path d="${areaD}" fill="url(#finProfitGrad)" />` : ''}
+                    ${points.length > 0 ? `<path d="${pathD}" fill="none" stroke="#27ae60" stroke-width="2.5" />` : ''}
+                    ${points.map(p => `
+                      <circle cx="${p.x}" cy="${p.y}" r="4" fill="#27ae60" />
+                      <text x="${p.x}" y="200" fill="var(--text2)" font-size="9" text-anchor="middle">${p.label}</text>
+                    `).join('')}
+                  `;
+                })()}
+                
+                <text x="35" y="183" fill="var(--text2)" font-size="8" text-anchor="end">₹0</text>
+                <text x="35" y="133" fill="var(--text2)" font-size="8" text-anchor="end">₹3.3L</text>
+                <text x="35" y="83" fill="var(--text2)" font-size="8" text-anchor="end">₹6.6L</text>
+                <text x="35" y="33" fill="var(--text2)" font-size="8" text-anchor="end">₹10L</text>
+              </svg>
+            </div>
+            <div style="text-align: center; font-size: 0.75rem; color: var(--text2);">Net profit trend over time.</div>
+          </div>
+        </div>
+
+        <!-- Row 2: Category distribution charts -->
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="pie-chart" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Income Categories</h3>
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-around; flex-wrap: wrap;">
+              <svg viewBox="0 0 160 160" style="width: 120px; height: 120px;">
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--bg2)" stroke-width="16" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="230 115" stroke-dashoffset="0" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#2980b9" stroke-width="16" stroke-dasharray="115 230" stroke-dashoffset="-230" />
+              </svg>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem;">
+                ${Object.entries(categoryIncome).map(([cat, amt], idx) => `
+                  <div><span style="width: 8px; height: 8px; background: ${idx === 0 ? 'var(--accent)' : '#2980b9'}; border-radius: 50%; display: inline-block;"></span> ${cat}: <strong>${formatLakhs(amt)}</strong></div>
+                `).join('') || '<div style="color: var(--text2)">No Income Category Data</div>'}
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="package" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Expense Categories</h3>
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-around; flex-wrap: wrap;">
+              <svg viewBox="0 0 160 160" style="width: 120px; height: 120px;">
+                <circle cx="80" cy="80" r="55" fill="none" stroke="var(--bg2)" stroke-width="16" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#c0392b" stroke-width="16" stroke-dasharray="180 160" stroke-dashoffset="0" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#e67e22" stroke-width="16" stroke-dasharray="100 240" stroke-dashoffset="-180" />
+                <circle cx="80" cy="80" r="55" fill="none" stroke="#7f8c8d" stroke-width="16" stroke-dasharray="65 275" stroke-dashoffset="-280" />
+              </svg>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem;">
+                ${Object.entries(categoryExpense).slice(0, 3).map(([cat, amt], idx) => {
+                  const colors = ['#c0392b', '#e67e22', '#7f8c8d'];
+                  return `
+                    <div><span style="width: 8px; height: 8px; background: ${colors[idx] || '#7f8c8d'}; border-radius: 50%; display: inline-block;"></span> ${cat}: <strong>${formatLakhs(amt)}</strong></div>
+                  `;
+                }).join('') || '<div style="color: var(--text2)">No Expense Category Data</div>'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: GST Summary, Outstanding Payments & Top Expense Categories -->
+        <div class="charts-row" style="margin-bottom: 2rem;">
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="file-text" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>GST & Outstanding Payments Audit</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.85rem;">
+              <div style="background: var(--bg2); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border);">
+                <div style="color: var(--text2); font-size: 0.75rem; margin-bottom: 0.25rem;">GST Collected (Sales)</div>
+                <strong style="font-size: 1.2rem; color: #27ae60;">${formatLakhs(totalGstCollected)}</strong>
+              </div>
+              <div style="background: var(--bg2); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border);">
+                <div style="color: var(--text2); font-size: 0.75rem; margin-bottom: 0.25rem;">GST Paid (Procurements)</div>
+                <strong style="font-size: 1.2rem; color: #c0392b;">${formatLakhs(totalGstPaid)}</strong>
+              </div>
+              <div style="background: var(--bg2); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border);">
+                <div style="color: var(--text2); font-size: 0.75rem; margin-bottom: 0.25rem;">Net GST Payable</div>
+                <strong style="font-size: 1.2rem; color: var(--text);">${formatLakhs(Math.max(0, totalGstCollected - totalGstPaid))}</strong>
+              </div>
+              <div style="background: var(--accent-light); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--accent);">
+                <div style="color: var(--accent); font-size: 0.75rem; margin-bottom: 0.25rem;">Outstanding Payments</div>
+                <strong style="font-size: 1.2rem; color: var(--accent);">${formatLakhs(pendingInvoicesAmt)}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <h3 style="font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 1rem;"><i data-lucide="list" style="vertical-align: middle; margin-right: 0.35rem; width: 16px; height: 16px;"></i>Top Expense Categories & Distribution</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              ${sortedExpenses.map(([cat, amt]) => {
+                const percentage = totalExp ? ((amt / totalExp) * 100).toFixed(0) : 0;
+                return `
+                  <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.2rem;">
+                      <span>${cat}</span>
+                      <strong>${formatLakhs(amt)} (${percentage}%)</strong>
+                    </div>
+                    <div style="width: 100%; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden;">
+                      <div style="width: ${percentage}%; height: 100%; background: #c0392b;"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('') || '<div style="color: var(--text2)">No Expense Data Recorded</div>'}
+            </div>
+          </div>
+        </div>
+      `;
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    // ── NOTIFICATION CENTER DATA AND FUNCTIONS
+    let notifications = [
+      { id: 1, type: 'project', text: 'Penthouse Watson milestone completed by Lead Designer.', time: '10 mins ago', read: false },
+      { id: 2, type: 'lead', text: 'New high-ticket lead received from Versailles Area.', time: '1 hour ago', read: false },
+      { id: 3, type: 'invoice', text: 'Invoice #INV-2026-004 is overdue by 5 days.', time: '3 hours ago', read: false },
+      { id: 4, type: 'inventory', text: 'Low inventory alert: Carrara Marble Slabs (12 Sq Ft remaining).', time: '1 day ago', read: false },
+      { id: 5, type: 'payment', text: 'Payment of ₹2.5L cleared for Villa Solare.', time: '2 days ago', read: false }
+    ];
+
+    function toggleNotificationDropdown(e) {
+      if (e) e.stopPropagation();
+      const dropdown = document.getElementById('notificationDropdown');
+      if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    function renderNotifications() {
+      const listContainer = document.getElementById('notificationList');
+      const badge = document.getElementById('notificationBadgeCount');
+      if (!listContainer) return;
+      
+      listContainer.innerHTML = '';
+      const unreadCount = notifications.filter(n => !n.read).length;
+      if (badge) {
+        badge.textContent = unreadCount;
+        badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+      }
+
+      if (notifications.length === 0) {
+        listContainer.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: var(--text2); font-size: 0.82rem;">No new notifications</div>`;
+        return;
+      }
+
+      notifications.forEach(n => {
+        let iconType = 'info';
+        let iconColor = 'var(--status-info-color)';
+        if (n.type === 'project') { iconType = 'folder-open'; iconColor = 'var(--accent)'; }
+        else if (n.type === 'lead') { iconType = 'user-plus'; iconColor = 'var(--status-success-color)'; }
+        else if (n.type === 'invoice') { iconType = 'clock'; iconColor = 'var(--status-warning-color)'; }
+        else if (n.type === 'inventory') { iconType = 'package'; iconColor = 'var(--status-danger-color)'; }
+        else if (n.type === 'payment') { iconType = 'check-circle'; iconColor = 'var(--status-success-color)'; }
+
+        const item = document.createElement('div');
+        item.className = `notification-item ${n.read ? 'read' : ''}`;
+        item.style.cssText = `display: flex; gap: 0.75rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; cursor: pointer; transition: background 0.15s; background: ${n.read ? 'transparent' : 'rgba(197, 160, 89, 0.05)'};`;
+        item.onclick = () => markAsRead(n.id);
+        
+        item.innerHTML = `
+          <div style="color: ${iconColor}; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--bg2); flex-shrink: 0;">
+            <i data-lucide="${iconType}" style="width: 16px; height: 16px;"></i>
+          </div>
+          <div style="flex-grow: 1;">
+            <div style="color: var(--text); font-weight: ${n.read ? '400' : '500'}; line-height: 1.35; margin-bottom: 0.2rem;">${n.text}</div>
+            <div style="color: var(--text2); font-size: 0.7rem;">${n.time}</div>
+          </div>
+        `;
+        listContainer.appendChild(item);
+      });
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    // Mark single notification read
+    function markAsRead(id) {
+      notifications = notifications.map(n => n.id === id ? { ...n, read: true } : n);
+      renderNotifications();
+    }
+
+    // Clear all notifications
+    function clearNotifications() {
+      notifications = [];
+      renderNotifications();
+    }
+
+    // Close notifications dropdown on clicking outside
+    document.addEventListener('click', () => {
+      const dropdown = document.getElementById('notificationDropdown');
+      if (dropdown) dropdown.style.display = 'none';
+    });
+
+    // Tooltip Helpers for BI Dashboard
+    window.showBITooltip = function(e, text) {
+      const tooltip = document.getElementById('bi-tooltip');
+      if (!tooltip) return;
+      tooltip.innerHTML = text;
+      tooltip.style.display = 'block';
+      tooltip.style.left = (e.pageX + 12) + 'px';
+      tooltip.style.top = (e.pageY + 12) + 'px';
+    };
+    
+    window.moveBITooltip = function(e) {
+      const tooltip = document.getElementById('bi-tooltip');
+      if (tooltip && tooltip.style.display === 'block') {
+        tooltip.style.left = (e.pageX + 12) + 'px';
+        tooltip.style.top = (e.pageY + 12) + 'px';
+      }
+    };
+
+    window.hideBITooltip = function() {
+      const tooltip = document.getElementById('bi-tooltip');
+      if (tooltip) tooltip.style.display = 'none';
+    };
+
     // Initialize Page
     document.addEventListener('DOMContentLoaded', () => {
       renderAll();
+      renderNotifications();
+      lucide.createIcons();
     });
   </script>
+  <!-- Dynamic BI Tooltip -->
+  <div id="bi-tooltip" style="position: absolute; display: none; background: rgba(26,26,26,0.95); color: #fff; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.72rem; pointer-events: none; z-index: 9999; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: var(--sans);"></div>
 </body>
 </html>
