@@ -1257,101 +1257,366 @@
       margin-top: 0.25rem;
     }
 
-    /* ── PRINT/PREVIEW INVOICE MODAL ── */
-    .invoice-preview-container {
-      background: #fff;
-      color: #333;
-      padding: 1.5rem 2rem;
-      font-family: var(--sans);
-      border-radius: 8px;
+    /* ── PREMIUM INVOICE DESIGN SYSTEM ── */
+    #modal-invoice-preview .modal-container {
+      max-width: 880px;
+      max-height: 94vh;
     }
-    
+
+    .invoice-preview-container {
+      background: #FFFDF8;
+      color: #2A211D;
+      padding: 1.2rem 1.8rem 1rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      line-height: 1.5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .invoice-preview-container::after {
+      content: 'FORME STUDIO';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      font-family: var(--serif);
+      font-size: 5.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: rgba(141, 110, 82, 0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .invoice-preview-container > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
     .inv-header {
       display: flex;
       justify-content: space-between;
-      border-bottom: 2px solid #f2f2f2;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1rem;
+      align-items: flex-start;
+      padding-bottom: 0.6rem;
+      margin-bottom: 0;
     }
-    
+
+    .inv-logo-block {}
+
     .inv-logo {
       font-family: var(--serif);
-      font-size: 1.75rem;
+      font-size: 1.6rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #2A211D;
+      letter-spacing: 0.18em;
+      line-height: 1;
+      margin-bottom: 0.1rem;
     }
-    
-    .inv-details {
+
+    .inv-logo .logo-forme { color: #8D6E52; }
+    .inv-logo .logo-studio { color: #2A211D; }
+
+    .inv-logo-tagline {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9A8E82;
+      margin-bottom: 0.35rem;
+    }
+
+    .inv-company-info {
+      font-size: 0.62rem;
+      color: #6C635B;
+      line-height: 1.45;
+    }
+
+    .inv-right-header {
       text-align: right;
-      font-size: 0.82rem;
-      line-height: 1.4;
     }
-    
+
+    .inv-title {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #8D6E52;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .inv-meta {
+      font-size: 0.65rem;
+      color: #6C635B;
+      line-height: 1.6;
+    }
+
+    .inv-meta strong {
+      color: #2A211D;
+      font-weight: 600;
+      display: inline-block;
+      min-width: 70px;
+      text-align: left;
+    }
+
+    /* Status Badges */
+    .inv-badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 50px;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .inv-badge-paid {
+      background: rgba(39, 174, 96, 0.1);
+      color: #1e8449;
+      border: 1px solid rgba(39, 174, 96, 0.25);
+    }
+
+    .inv-badge-pending {
+      background: rgba(243, 156, 18, 0.1);
+      color: #b7791f;
+      border: 1px solid rgba(243, 156, 18, 0.25);
+    }
+
+    .inv-badge-overdue {
+      background: rgba(192, 57, 43, 0.1);
+      color: #c0392b;
+      border: 1px solid rgba(192, 57, 43, 0.25);
+    }
+
+    /* Gold Divider */
+    .inv-divider {
+      height: 1.5px;
+      background: linear-gradient(90deg, #8D6E52, rgba(141, 110, 82, 0.15));
+      margin: 0.6rem 0;
+      border: none;
+    }
+
+    /* Bill To / Issued By Cards */
     .inv-bill-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 1rem;
-      font-size: 0.82rem;
+      gap: 1.2rem;
+      margin-bottom: 0.7rem;
     }
-    
-    .inv-bill-to h4, .inv-from h4 {
+
+    .inv-card {
+      background: rgba(141, 110, 82, 0.03);
+      border: 1px solid rgba(141, 110, 82, 0.1);
+      border-radius: 4px;
+      padding: 0.55rem 0.7rem;
+    }
+
+    .inv-card-label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-      color: #888;
+      color: #8D6E52;
       margin-bottom: 0.25rem;
+      display: block;
     }
-    
+
+    .inv-card p {
+      margin: 0;
+      font-size: 0.65rem;
+      line-height: 1.5;
+      color: #4A3F37;
+    }
+
+    .inv-card p strong {
+      font-size: 0.72rem;
+      color: #2A211D;
+    }
+
+    /* Invoice Table */
     .inv-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 1rem;
+      margin-bottom: 0.7rem;
     }
-    
+
+    .inv-table thead {
+      background: #8D6E52;
+    }
+
     .inv-table th {
-      border-bottom: 2px solid #ddd;
-      padding: 0.5rem;
+      padding: 0.4rem 0.5rem;
       font-weight: 600;
+      font-size: 0.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
       text-align: left;
-      font-size: 0.8rem;
+      border: none;
     }
-    
+
+    .inv-table th:not(:first-child) {
+      text-align: right;
+    }
+
     .inv-table td {
-      border-bottom: 1px solid #eee;
-      padding: 0.5rem;
-      font-size: 0.8rem;
+      padding: 0.4rem 0.5rem;
+      font-size: 0.67rem;
+      color: #4A3F37;
+      border-bottom: 1px solid rgba(141, 110, 82, 0.08);
     }
-    
-    .inv-summary {
+
+    .inv-table td:not(:first-child):not(:nth-child(2)) {
+      text-align: right;
+    }
+
+    .inv-table tbody tr:nth-child(even) {
+      background: rgba(141, 110, 82, 0.025);
+    }
+
+    .inv-table tbody tr:hover {
+      background: rgba(141, 110, 82, 0.05);
+    }
+
+    .inv-table td:first-child {
+      text-align: center;
+      width: 30px;
+      color: #9A8E82;
+      font-weight: 600;
+    }
+
+    /* Summary Panel */
+    .inv-summary-panel {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.35rem;
-      font-size: 0.85rem;
+      justify-content: flex-end;
+      margin-bottom: 0.7rem;
     }
-    
+
+    .inv-summary-box {
+      width: 260px;
+      border: 1px solid rgba(141, 110, 82, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
     .inv-summary-row {
       display: flex;
       justify-content: space-between;
-      width: 220px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.67rem;
+      color: #4A3F37;
     }
-    
-    .inv-total {
-      font-size: 1.1rem;
+
+    .inv-summary-row:not(:last-child) {
+      border-bottom: 1px solid rgba(141, 110, 82, 0.06);
+    }
+
+    .inv-summary-row.inv-grand-total {
+      background: rgba(141, 110, 82, 0.08);
+      font-size: 0.8rem;
       font-weight: 700;
-      border-top: 1px solid #ddd;
-      padding-top: 0.35rem;
-      margin-top: 0.35rem;
+      color: #2A211D;
+      padding: 0.4rem 0.7rem;
+    }
+
+    .inv-summary-row.inv-grand-total span:last-child {
+      color: #8D6E52;
+    }
+
+    /* Payment Section */
+    .inv-payment-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .inv-payment-block {
+      border-left: 2.5px solid #8D6E52;
+      padding-left: 0.65rem;
+    }
+
+    .inv-section-title {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8D6E52;
+      margin-bottom: 0.2rem;
+    }
+
+    .inv-payment-block p {
+      margin: 0;
+      font-size: 0.62rem;
+      line-height: 1.55;
+      color: #4A3F37;
+    }
+
+    .inv-payment-block p strong {
+      color: #2A211D;
+      display: inline-block;
+      min-width: 82px;
+    }
+
+    /* Notes */
+    .inv-notes {
+      background: rgba(141, 110, 82, 0.025);
+      border: 1px solid rgba(141, 110, 82, 0.08);
+      border-radius: 4px;
+      padding: 0.45rem 0.7rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .inv-notes p {
+      margin: 0;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.67rem;
+      color: #6C635B;
+      line-height: 1.55;
+    }
+
+    /* Footer */
+    .inv-footer {
+      border-top: 1px solid rgba(141, 110, 82, 0.15);
+      padding-top: 0.45rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-size: 0.55rem;
+      color: #9A8E82;
+      line-height: 1.5;
+    }
+
+    .inv-footer-right {
+      text-align: right;
+    }
+
+    .inv-footer-center {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding-top: 0.25rem;
+      border-top: 1px solid rgba(141, 110, 82, 0.06);
+      font-size: 0.52rem;
+      color: #B0A79E;
     }
 
     /* Print styles */
     @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
       body {
         background: #fff !important;
-        color: #000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
+
       .app-container,
       .sidebar,
       .navbar,
@@ -1359,9 +1624,11 @@
       .modal-header,
       .modal-footer,
       .modal-close,
+      .sidebar-overlay,
       .modal:not(#modal-invoice-preview) {
         display: none !important;
       }
+
       .modal#modal-invoice-preview {
         position: static !important;
         display: block !important;
@@ -1369,6 +1636,7 @@
         visibility: visible !important;
         background: none !important;
       }
+
       .modal#modal-invoice-preview .modal-container {
         position: static !important;
         max-width: 100% !important;
@@ -1377,11 +1645,51 @@
         background: none !important;
         margin: 0 !important;
         padding: 0 !important;
+        border: none !important;
+        max-height: none !important;
+        overflow: visible !important;
       }
+
       .invoice-preview-container {
-        padding: 0 !important;
+        padding: 0.8cm 1.2cm !important;
         margin: 0 !important;
         border: none !important;
+        box-shadow: none !important;
+        background: #FFFDF8 !important;
+        font-size: 0.72rem !important;
+      }
+
+      .invoice-preview-container::after {
+        display: block !important;
+      }
+
+      .inv-table thead {
+        background: #8D6E52 !important;
+      }
+
+      .inv-table th {
+        color: #fff !important;
+      }
+
+      .inv-badge-paid { background: rgba(39, 174, 96, 0.1) !important; color: #1e8449 !important; }
+      .inv-badge-pending { background: rgba(243, 156, 18, 0.1) !important; color: #b7791f !important; }
+      .inv-badge-overdue { background: rgba(192, 57, 43, 0.1) !important; color: #c0392b !important; }
+
+      .inv-summary-row.inv-grand-total {
+        background: rgba(141, 110, 82, 0.08) !important;
+      }
+
+      .inv-card {
+        background: rgba(141, 110, 82, 0.03) !important;
+      }
+
+      .inv-notes {
+        background: rgba(141, 110, 82, 0.025) !important;
+      }
+
+      @page {
+        size: A4;
+        margin: 0.5cm;
       }
     }
 
@@ -4254,7 +4562,7 @@
   <!-- PREVIEW INVOICE MODAL -->
   <div class="modal" id="modal-invoice-preview">
     <div class="modal-overlay" onclick="closeInvoicePreview()"></div>
-    <div class="modal-container" style="max-width: 800px;">
+    <div class="modal-container">
       <div class="modal-header">
         <h3 class="modal-title">Official Document Preview</h3>
         <button class="modal-close" onclick="closeInvoicePreview()">
@@ -4263,70 +4571,144 @@
       </div>
       <div class="modal-body" style="padding: 0;">
         <div class="invoice-preview-container" id="invoice-print-area">
+
+          <!-- 1. HEADER -->
           <div class="inv-header">
-            <div>
-              <h2 class="inv-logo">Forme Studio</h2>
-              <p style="font-size: 0.85rem; color: #888;">Interior Architecture & Design</p>
+            <div class="inv-logo-block">
+              <div class="inv-logo"><span class="logo-forme">Forme</span> <span class="logo-studio">Studio</span></div>
+              <div class="inv-logo-tagline">Interior Architecture & Design</div>
+              <div class="inv-company-info">
+                7 Rue du Faubourg, Paris 75008<br>
+                +33 1 42 00 00 00 · hello@formestudio.com<br>
+                www.formestudio.com<br>
+                GST: FR87541296541
+              </div>
             </div>
-            <div class="inv-details">
-              <h3 style="font-family: var(--serif); font-size: 1.5rem; margin-bottom: 0.25rem;">INVOICE</h3>
-              <p><strong>Invoice #:</strong> <span id="p-inv-number">INV-2026-001</span></p>
-              <p><strong>Date:</strong> <span id="p-inv-date">2026-07-15</span></p>
+            <div class="inv-right-header">
+              <div class="inv-title">INVOICE</div>
+              <div class="inv-meta">
+                <strong>Invoice #</strong> <span id="p-inv-number">INV-2026-001</span><br>
+                <strong>Issued</strong> <span id="p-inv-date">2026-07-01</span><br>
+                <strong>Due Date</strong> <span id="p-inv-due-date">2026-07-31</span>
+              </div>
+              <div style="margin-top: 0.3rem;">
+                <span class="inv-badge inv-badge-paid" id="p-inv-status-badge">PAID</span>
+              </div>
             </div>
           </div>
-          
+
+          <!-- 2. GOLD DIVIDER -->
+          <hr class="inv-divider">
+
+          <!-- 3. CLIENT INFO CARDS -->
           <div class="inv-bill-row">
-            <div class="inv-bill-to">
-              <h4>BILLED TO</h4>
+            <div class="inv-card">
+              <span class="inv-card-label">Bill To</span>
               <p><strong id="p-inv-client">Emma Watson</strong></p>
-              <p>Resident Representative Address</p>
+              <p id="p-inv-client-address">12 Rue de Tolbiac, Paris</p>
+              <p id="p-inv-client-phone">+33 6 42 11 00 22</p>
+              <p id="p-inv-client-email">emma@watson.co.uk</p>
               <p>Tax Status: Personal Account</p>
             </div>
-            <div class="inv-from">
-              <h4>ISSUED BY</h4>
-              <p><strong>Forme Studio Corporate Ltd</strong></p>
+            <div class="inv-card">
+              <span class="inv-card-label">Issued By</span>
+              <p><strong>Forme Studio Interior Architecture</strong></p>
               <p>7 Rue du Faubourg, Paris 75008</p>
-              <p>VAT ID: FR87541296541</p>
+              <p>+33 1 42 00 00 00</p>
+              <p>hello@formestudio.com</p>
+              <p>GST: FR87541296541</p>
             </div>
           </div>
-          
+
+          <!-- 4. INVOICE TABLE -->
           <table class="inv-table">
             <thead>
               <tr>
-                <th>Scope Description</th>
-                <th style="text-align: right;">Base Cost</th>
-                <th style="text-align: right;">VAT / GST (18%)</th>
-                <th style="text-align: right;">Total Amount</th>
+                <th style="text-align: center; width: 30px;">#</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>GST (18%)</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Comprehensive Interior Remodel - Milestones Milestone Billing Cycle 1</td>
-                <td style="text-align: right;" id="p-inv-base">₹25,000.00</td>
-                <td style="text-align: right;" id="p-inv-gst">₹4,500.00</td>
-                <td style="text-align: right;" id="p-inv-total">₹29,500.00</td>
+                <td>1</td>
+                <td>Interior Design & Remodeling – Milestone Billing Cycle</td>
+                <td style="text-align: right;">1</td>
+                <td style="text-align: right;" id="p-inv-base">₹35,000.00</td>
+                <td style="text-align: right;" id="p-inv-gst">₹6,300.00</td>
+                <td style="text-align: right;" id="p-inv-total">₹41,300.00</td>
               </tr>
             </tbody>
           </table>
-          
-          <div class="inv-summary">
-            <div class="inv-summary-row">
-              <span>Subtotal:</span>
-              <span id="p-inv-sub">₹25,000.00</span>
-            </div>
-            <div class="inv-summary-row">
-              <span>GST Total (18%):</span>
-              <span id="p-inv-gst-sum">₹4,500.00</span>
-            </div>
-            <div class="inv-summary-row inv-total">
-              <span>Grand Billed Total:</span>
-              <span id="p-inv-grand">₹29,500.00</span>
+
+          <!-- 5. SUMMARY PANEL -->
+          <div class="inv-summary-panel">
+            <div class="inv-summary-box">
+              <div class="inv-summary-row">
+                <span>Subtotal</span>
+                <span id="p-inv-sub">₹35,000.00</span>
+              </div>
+              <div class="inv-summary-row">
+                <span>GST (18%)</span>
+                <span id="p-inv-gst-sum">₹6,300.00</span>
+              </div>
+              <div class="inv-summary-row">
+                <span>Discount</span>
+                <span>₹0.00</span>
+              </div>
+              <div class="inv-summary-row inv-grand-total">
+                <span>Grand Total</span>
+                <span id="p-inv-grand">₹41,300.00</span>
+              </div>
             </div>
           </div>
-          
-          <div style="margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 0.75rem; font-size: 0.75rem; color: #888; text-align: center;">
-            Thank you for collaborating with Forme Studio. Settlement term: 15 business days from receipt.
+
+          <!-- 6. PAYMENT INFO -->
+          <div class="inv-payment-section">
+            <div class="inv-payment-block">
+              <div class="inv-section-title">Bank Details</div>
+              <p>
+                <strong>Bank</strong> State Bank of India<br>
+                <strong>Account</strong> Forme Studio Interior Architecture<br>
+                <strong>A/C No.</strong> 39281046752<br>
+                <strong>IFSC</strong> SBIN0001234
+              </p>
+            </div>
+            <div class="inv-payment-block">
+              <div class="inv-section-title">Payment Terms</div>
+              <p>
+                <strong>UPI</strong> forme@studio.upi<br>
+                <strong>Terms</strong> Net 30 from invoice date<br>
+                <strong>Late Fee</strong> 1.5% per month after due date
+              </p>
+            </div>
           </div>
+
+          <!-- 7. NOTES -->
+          <div class="inv-notes">
+            <div class="inv-section-title" style="color: #8D6E52; font-style: normal;">Note</div>
+            <p>Thank you for choosing Forme Studio. We appreciate your trust in our design services. Please contact us for any invoice-related queries at hello@formestudio.com.</p>
+          </div>
+
+          <!-- 8. FOOTER -->
+          <div class="inv-footer">
+            <div>
+              www.formestudio.com<br>
+              hello@formestudio.com · +33 1 42 00 00 00
+            </div>
+            <div class="inv-footer-right">
+              GST: FR87541296541<br>
+              This is a computer-generated invoice.
+            </div>
+            <div class="inv-footer-center">
+              Generated on <span id="p-inv-generated">26 Jul 2026, 04:41 PM</span> · Ref: <span id="p-inv-ref">INV-2026-001</span><br>
+              © 2026 Forme Studio Interior Architecture. All rights reserved.
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="modal-footer">
@@ -5296,18 +5678,54 @@
       const invoice = store.invoices.find(x => x.id === id);
       if (!invoice) return;
 
+      const fmt = (v) => `₹${v.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      const total = invoice.amount + invoice.gst;
+
+      // Header meta
       document.getElementById('p-inv-number').textContent = invoice.no;
       document.getElementById('p-inv-date').textContent = invoice.date;
+      
+      // Due date (30 days from issue)
+      const issueDate = new Date(invoice.date);
+      const dueDate = new Date(issueDate);
+      dueDate.setDate(dueDate.getDate() + 30);
+      document.getElementById('p-inv-due-date').textContent = dueDate.toISOString().split('T')[0];
+
+      // Status badge
+      const badge = document.getElementById('p-inv-status-badge');
+      badge.textContent = invoice.status;
+      badge.className = 'inv-badge';
+      if (invoice.status === 'PAID') badge.classList.add('inv-badge-paid');
+      else if (invoice.status === 'PENDING') badge.classList.add('inv-badge-pending');
+      else if (invoice.status === 'OVERDUE') badge.classList.add('inv-badge-overdue');
+
+      // Client info
       document.getElementById('p-inv-client').textContent = invoice.client;
-      
-      document.getElementById('p-inv-base').textContent = `₹${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-gst').textContent = `₹${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      
-      const total = invoice.amount + invoice.gst;
-      document.getElementById('p-inv-total').textContent = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-sub').textContent = `₹${invoice.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-gst-sum').textContent = `₹${invoice.gst.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-      document.getElementById('p-inv-grand').textContent = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      const client = store.clients.find(c => c.name === invoice.client);
+      if (client) {
+        document.getElementById('p-inv-client-address').textContent = client.address || '—';
+        document.getElementById('p-inv-client-phone').textContent = client.phone || '—';
+        document.getElementById('p-inv-client-email').textContent = client.email || '—';
+      } else {
+        document.getElementById('p-inv-client-address').textContent = '—';
+        document.getElementById('p-inv-client-phone').textContent = '—';
+        document.getElementById('p-inv-client-email').textContent = '—';
+      }
+
+      // Table amounts
+      document.getElementById('p-inv-base').textContent = fmt(invoice.amount);
+      document.getElementById('p-inv-gst').textContent = fmt(invoice.gst);
+      document.getElementById('p-inv-total').textContent = fmt(total);
+
+      // Summary
+      document.getElementById('p-inv-sub').textContent = fmt(invoice.amount);
+      document.getElementById('p-inv-gst-sum').textContent = fmt(invoice.gst);
+      document.getElementById('p-inv-grand').textContent = fmt(total);
+
+      // Footer
+      const now = new Date();
+      document.getElementById('p-inv-generated').textContent = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+      document.getElementById('p-inv-ref').textContent = invoice.no;
 
       const modal = document.getElementById('modal-invoice-preview');
       modal.classList.add('open');
