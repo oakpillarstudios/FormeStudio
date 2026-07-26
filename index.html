@@ -66,6 +66,7 @@
     .btn-p:hover{background:#fff;color:var(--text);transform:translateY(-2px)}
     .btn-g{display:inline-block;padding:.8rem 1.85rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
     .btn-g:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+    .btn-admin-mobile{display:none}
     .btn-w{display:inline-block;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;background:#fff;color:var(--text);text-decoration:none;transition:background .25s,transform .2s}
     .btn-w:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
     .btn-gw{display:inline-block;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,255,255,.45);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
@@ -391,6 +392,10 @@
       .hero-title{font-size:2.6rem}
       .hero-sub{max-width:100%}
       .hero-btns .btn-g{display:none}
+      .hero-btns{gap:12px;flex-wrap:nowrap}
+      .hero-btns .btn-p,.btn-admin-mobile{flex:1;min-width:0;text-align:center;padding:.8rem .5rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:#fff;text-decoration:none;transition:background .25s,transform .2s}
+      .btn-admin-mobile{display:inline-block!important}
+      .hero-btns .btn-p:hover,.hero-btns .btn-p:active,.btn-admin-mobile:hover,.btn-admin-mobile:active{background:#fff;color:var(--text);transform:translateY(-2px)}
       .scroll-hint{display:none}
       .intro-grid{grid-template-columns:1fr;gap:2.25rem}
       .intro-img img{height:300px}
@@ -539,6 +544,7 @@
     <div class="hero-btns">
       <a href="#work" class="btn-p">Explore Our Work</a>
       <a href="#contact" class="btn-g">Start a Project</a>
+      <a href="admin.html" class="btn-admin-mobile">Admin</a>
     </div>
   </div>
   <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
